@@ -9,8 +9,8 @@ import {
 import {
   StationInformationResponseMapper,
   StationStatusResponseMapper,
-  RegionInformationResponseMapper
-} from '../mapper'
+  RegionInfoResponseMapper
+} from '../utility/mapper'
 
 export const typeDefs = gql`
   type Query {
@@ -73,7 +73,7 @@ export const resolvers = {
           const { data } = response.data
           const { regions } = data
           regions.forEach((region) => {
-            regionsList.push(RegionInformationResponseMapper(region));
+            regionsList.push(RegionInfoResponseMapper(region));
           });
 
           if (regions.length > 0) return regionsList;
@@ -103,7 +103,7 @@ export const resolvers = {
           const { regions } = data
           const selectedRegion = _.find(regions, (item) => (item.region_id === stationInformation.regionId));
           if (selectedRegion) {
-            return RegionInformationResponseMapper(selectedRegion);
+            return RegionInfoResponseMapper(selectedRegion);
           }
           throw "Selected region is not avaiable"
         })
