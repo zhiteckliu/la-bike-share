@@ -1,11 +1,18 @@
 import _ from 'lodash';
 import { gql } from 'apollo-server-express';
 import { IBikeShareStation, IStationInformation, IRegionInformation } from '../model';
-import { GetBikeShareStations, GetStationsInformation, GetStationStatus, GetRegionInformation } from '../api'
-import BikeShareStationResponseMapper from '../mapper/BikeShareStationResponseMapper';
-import StationInformationResponseMapper from '../mapper/StationInformationResponseMapper';
-import StationStatusResponseMapper from '../mapper/StationStatusResponseMapper';
-import RegionInformationResponseMapper from '../mapper/RegionInformationResponseMapper';
+import {
+  GetBikeShareStations,
+  GetStationsInformation,
+  GetStationStatus,
+  GetRegionInformation
+} from '../api'
+import {
+  BikeShareStationResponseMapper,
+  StationInformationResponseMapper,
+  StationStatusResponseMapper,
+  RegionInformationResponseMapper
+} from '../mapper'
 
 export const typeDefs = gql`
   type Query {
