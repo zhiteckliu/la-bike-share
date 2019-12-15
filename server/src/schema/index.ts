@@ -1,14 +1,12 @@
 import _ from 'lodash';
 import { gql } from 'apollo-server-express';
-import { IBikeShareStation, IStationInformation, IRegionInformation } from '../model';
+import { IStationInformation, IRegionInformation } from '../model';
 import {
-  GetBikeShareStations,
   GetStationsInformation,
   GetStationStatus,
   GetRegionInformation
 } from '../api'
 import {
-  BikeShareStationResponseMapper,
   StationInformationResponseMapper,
   StationStatusResponseMapper,
   RegionInformationResponseMapper
@@ -16,38 +14,9 @@ import {
 
 export const typeDefs = gql`
   type Query {
-    bikeShareStationFull(id: Int): BikeShareStationFull,
-    bikeShareStationsFull: [BikeShareStationFull],
     bikeShareStations:[StationInformation],
     regions:[RegionInformation],
   }
-
-  ## Start: Full Query Schema ##
-  ## no longer used
-  type BikeShareStationFull {
-    id: ID
-    fullId: ID
-    name: String
-    address: Address
-    latlong: LatLong
-    totalAvailableBikes: Int
-    bikesAvailabilityType: BikesAvailabilityType
-    emptyDocks: Int
-  }
-
-  type Address {
-    street: String
-    city: String
-    state: String
-    zip: String
-  }
-
-  type LatLong {
-    lat: Float
-    long: Float
-  }
-
-  ## End: Full Query Schema ##
 
   type StationInformation {
     lat: Float
@@ -82,34 +51,6 @@ export const typeDefs = gql`
 
 export const resolvers = {
   Query: {
-    bikeShareStationFull: async (parent: any, args: { id: number; }) => {
-      return await GetBikeShareStations()
-        .then((response) => {
-          const { data } = response;
-          const { features } = data;
-          const selectedStation = _.find(features, (item) => (item.properties.kioskId === args.id));
-          if (selectedStation) {
-            return BikeShareStationResponseMapper(selectedStation.properties);
-          }
-          throw "Selected station is not avaiable or invalid id has been input";
-        })
-    },
-    bikeShareStationsFull: async () => {
-      let stations: IBikeShareStation[] = [];
-      return await GetBikeShareStations()
-        .then((response) => {
-          const { data } = response;
-          const { features } = data;
-          features.forEach((feature) => {
-            const { properties } = feature;
-            stations.push(BikeShareStationResponseMapper(properties));
-          });
-
-          if (stations.length > 0) return stations;
-
-          throw "An error has occured"
-        })
-    },
     bikeShareStations: async () => {
       let stationsList: IStationInformation[] = [];
       return await GetStationsInformation()
