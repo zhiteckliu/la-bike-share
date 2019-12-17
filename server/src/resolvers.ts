@@ -66,6 +66,29 @@ const resolvers = {
       return filteredRegionList.filter(station =>
         filteredAvailableList.some(status => status.station_id === station.id))
     },
+    findEmptyDocks: async (parent: any, args: { numBikesReturn: number }) => {
+      const stationInfolist = await GetStationsInformation()
+        .then((response) => {
+          let stationList: IStationInformation[] = [];
+          const { data } = response.data
+          const { stations } = data
+          stations.forEach((station) => {
+            stationList.push(StationInformationResponseMapper(station));
+          });
+          return stationList
+        });
+
+      const emptyDocksList = await GetStationStatus()
+        .then((response) => {
+          const { data } = response.data;
+          const { stations } = data;
+          return _.filter(stations, (item) =>
+            (item.num_docks_available > args.numBikesReturn));
+        })
+
+      return stationInfolist.filter(station =>
+        emptyDocksList.some(status => status.station_id === station.id))
+    },
     regions: async (parent: any, args: any) => {
       let regionsList: IRegionInformation[] = [];
       return await GetRegionInformation()
@@ -97,8 +120,7 @@ const resolvers = {
         })
     },
     availability: async (
-      stationInformation: IStationInformation,
-      args: { regionId: string, viewAll: boolean, types: any }) => {
+      stationInformation: IStationInformation) => {
       return await GetStationStatus()
         .then((response) => {
           const { data } = response.data

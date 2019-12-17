@@ -14,7 +14,8 @@ interface BikesAvailabilityTypes {
 }
 
 export interface Status {
-    station_id: String;
+    station_id: string;
+    num_docks_available: number;
     num_bikes_available: number;
     num_bikes_available_types: BikesAvailabilityTypes;
 }
