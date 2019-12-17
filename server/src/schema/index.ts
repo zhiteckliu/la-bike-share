@@ -14,32 +14,18 @@ import {
 
 export const typeDefs = gql`
   type Query {
-    bikeShareStations:[StationInformation],
+    stations:[StationInformation],
     regions:[RegionInformation],
   }
 
   type StationInformation {
+    id: String
+    name: String
+    address: String
     lat: Float
     long: Float
-    regionId: String
-    regionInfo: RegionInformation
-    address: String
-    name: String
-    id: String
-    status: StationStatus
-  }
-
-  type StationStatus {
-    id: String
-    emptyDocks: Int
-    totalBikesAvailable: Int
-    bikesAvailabilityType: BikesAvailabilityType
-  }
-
-  type BikesAvailabilityType {
-    classic: Int
-    electric: Int
-    smart: Int
+    region: RegionInformation
+    availability: Availability
   }
 
   type RegionInformation {
@@ -47,11 +33,23 @@ export const typeDefs = gql`
     name: String
     stations: [StationInformation]
   }
+
+  type Availability {
+    emptyDocks: Int
+    total: Int
+    type: AvailabilityType
+  }
+
+  type AvailabilityType {
+    classic: Int
+    electric: Int
+    smart: Int
+  }
 `;
 
 export const resolvers = {
   Query: {
-    bikeShareStations: async () => {
+    stations: async () => {
       let stationsList: IStationInformation[] = [];
       return await GetStationsInformation()
         .then((response) => {
@@ -66,7 +64,7 @@ export const resolvers = {
           throw "An error has occured"
         })
     },
-    regions: async () => {
+    regions: async (parent: any, args: any) => {
       let regionsList: IRegionInformation[] = [];
       return await GetRegionInformation()
         .then((response) => {
@@ -84,19 +82,7 @@ export const resolvers = {
     }
   },
   StationInformation: {
-    status: async (stationInformation: IStationInformation) => {
-      return await GetStationStatus()
-        .then((response) => {
-          const { data } = response.data
-          const { stations } = data
-          const selectedStationStatus = _.find(stations, (item) => (item.station_id === stationInformation.id));
-          if (selectedStationStatus) {
-            return StationStatusResponseMapper(selectedStationStatus);
-          }
-          throw "Selected station status is not avaiable"
-        })
-    },
-    regionInfo: async (stationInformation: IStationInformation) => {
+    region: async (stationInformation: IStationInformation) => {
       return await GetRegionInformation()
         .then((response) => {
           const { data } = response.data
@@ -106,6 +92,20 @@ export const resolvers = {
             return RegionInfoResponseMapper(selectedRegion);
           }
           throw "Selected region is not avaiable"
+        })
+    },
+    availability: async (
+      stationInformation: IStationInformation,
+      args: { regionId: string, viewAll: boolean, types: any }) => {
+      return await GetStationStatus()
+        .then((response) => {
+          const { data } = response.data
+          const { stations } = data
+          const selectedStationStatus = _.find(stations, (item) => (item.station_id === stationInformation.id));
+          if (selectedStationStatus) {
+            return StationStatusResponseMapper(selectedStationStatus);
+          }
+          throw "Selected station status is not avaiable"
         })
     },
   },

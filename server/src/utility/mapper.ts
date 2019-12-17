@@ -19,10 +19,10 @@ export const StationStatusResponseMapper = (src: Status) => {
     var map = {
         "id": "station_id",
         "num_docks_available": "emptyDocks",
-        "num_bikes_available": "totalBikesAvailable",
-        "num_bikes_available_types.electric": "bikesAvailabilityType.electric",
-        "num_bikes_available_types.smart": "bikesAvailabilityType.smart",
-        "num_bikes_available_types.classic": "bikesAvailabilityType.classic",
+        "num_bikes_available": "total",
+        "num_bikes_available_types.electric": "type.electric",
+        "num_bikes_available_types.smart": "type.smart",
+        "num_bikes_available_types.classic": "type.classic",
     }
     return objectMapper(src, map);
 }
