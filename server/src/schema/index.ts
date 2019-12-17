@@ -15,7 +15,15 @@ import {
 export const typeDefs = gql`
   type Query {
     stations:[StationInformation],
+    filterAvailableStations(regionId: String, types: BikeTypeAvailable):[StationInformation],
     regions:[RegionInformation],
+  }
+
+  input BikeTypeAvailable {
+    viewAll: Boolean, 
+    electric: Int
+    classic: Int
+    smart: Int
   }
 
   type StationInformation {
@@ -63,6 +71,43 @@ export const resolvers = {
 
           throw "An error has occured"
         })
+    },
+    filterAvailableStations: async (
+      parent: any,
+      args: { regionId: string, types: any }
+    ) => {
+      const filteredRegionList = await GetStationsInformation()
+        .then((response) => {
+          let stationList: IStationInformation[] = [];
+          const { data } = response.data
+          const { stations } = data
+          const unMappedFilteredRegionList = _.filter(stations, { region_id: args.regionId })
+          unMappedFilteredRegionList.forEach((station) => {
+            stationList.push(StationInformationResponseMapper(station));
+          });
+          return stationList
+        });
+
+      const filteredAvailableList = await GetStationStatus()
+        .then((response) => {
+          const { data } = response.data;
+          const { stations } = data;
+          const filteredAvailableList = _.filter(stations, (item) => {
+            const { classic, electric, smart } = item.num_bikes_available_types;
+            const { types } = args
+
+            if (types.viewAll) return item.num_bikes_available > 0;
+
+            return item.num_bikes_available > 0 &&
+              classic >= (types.classic || 0) &&
+              electric >= (types.electric || 0) &&
+              smart >= (types.smart || 0)
+          });
+          return filteredAvailableList;
+        })
+
+      return filteredRegionList.filter(station =>
+        filteredAvailableList.some(status => status.station_id === station.id))
     },
     regions: async (parent: any, args: any) => {
       let regionsList: IRegionInformation[] = [];
