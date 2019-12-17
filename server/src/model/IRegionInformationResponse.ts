@@ -1,6 +1,6 @@
 interface IRegionInformationResponse {
     data: Regions;
-    last_updated: Number;
+    last_updated: number;
 }
 
 interface Regions {
@@ -8,8 +8,8 @@ interface Regions {
 }
 
 export interface RegionInformation {
-    region_name: String;
-    region_id: String;
+    region_name: string;
+    region_id: string;
 }
 
 export default IRegionInformationResponse

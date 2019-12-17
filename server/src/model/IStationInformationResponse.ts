@@ -1,6 +1,6 @@
 interface IStationInformationResponse {
     data: Stations
-    last_updated: Number;
+    last_updated: number;
 }
 
 interface Stations {
@@ -8,12 +8,12 @@ interface Stations {
 }
 
 export interface StationInformation {
-    lon: Number;
-    lat: Number;
-    region_id: String;
-    address: String;
-    name: String;
-    station_id: String;
+    lon: number;
+    lat: number;
+    region_id: string;
+    address: string;
+    name: string;
+    station_id: string;
 }
 
 export default IStationInformationResponse

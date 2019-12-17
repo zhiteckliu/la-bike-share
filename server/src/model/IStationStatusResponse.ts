@@ -1,6 +1,6 @@
 interface IStationStatusResponse {
     data: Stations
-    last_updated: Number;
+    last_updated: number;
 }
 
 interface Stations {
@@ -8,14 +8,14 @@ interface Stations {
 }
 
 interface BikesAvailabilityTypes {
-    electric: Number;
-    smart: Number;
-    classic: Number;
+    electric: number;
+    smart: number;
+    classic: number;
 }
 
 export interface Status {
     station_id: String;
-    num_bikes_available: Number;
+    num_bikes_available: number;
     num_bikes_available_types: BikesAvailabilityTypes;
 }
 

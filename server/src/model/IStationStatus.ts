@@ -1,14 +1,14 @@
 interface IStationStatus {
-    id: String;
-    emptyDocks: Number;
-    totalBikesAvailable: Number;
+    id: string;
+    emptyDocks: number;
+    totalBikesAvailable: number;
     bikesAvailabilityType: BikesAvailabilityTypes
 }
 
 interface BikesAvailabilityTypes {
-    electric: Number;
-    smart: Number;
-    classic: Number;
+    electric: number;
+    smart: number;
+    classic: number;
 }
 
 export default IStationStatus

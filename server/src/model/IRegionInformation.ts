@@ -1,6 +1,6 @@
 interface IRegionInformation {
-    name: String;
-    id: String;
+    name: string;
+    id: string;
 }
 
 export default IRegionInformation;
