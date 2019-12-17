@@ -1,61 +1,18 @@
 import _ from 'lodash';
-import { gql } from 'apollo-server-express';
-import { IStationInformation, IRegionInformation } from '../model';
+
+import { IStationInformation, IRegionInformation } from './model';
 import {
   GetStationsInformation,
   GetStationStatus,
   GetRegionInformation
-} from '../api'
+} from './api'
 import {
   StationInformationResponseMapper,
   StationStatusResponseMapper,
   RegionInfoResponseMapper
-} from '../utility/mapper'
+} from './utility/mapper'
 
-export const typeDefs = gql`
-  type Query {
-    stations:[StationInformation],
-    filterAvailableStations(regionId: String, types: BikeTypeAvailable):[StationInformation],
-    regions:[RegionInformation],
-  }
-
-  input BikeTypeAvailable {
-    viewAll: Boolean, 
-    electric: Int
-    classic: Int
-    smart: Int
-  }
-
-  type StationInformation {
-    id: String
-    name: String
-    address: String
-    lat: Float
-    long: Float
-    region: RegionInformation
-    availability: Availability
-  }
-
-  type RegionInformation {
-    id: String
-    name: String
-    stations: [StationInformation]
-  }
-
-  type Availability {
-    emptyDocks: Int
-    total: Int
-    type: AvailabilityType
-  }
-
-  type AvailabilityType {
-    classic: Int
-    electric: Int
-    smart: Int
-  }
-`;
-
-export const resolvers = {
+const resolvers = {
   Query: {
     stations: async () => {
       let stationsList: IStationInformation[] = [];
@@ -171,3 +128,5 @@ export const resolvers = {
     }
   }
 }
+
+export default resolvers;
