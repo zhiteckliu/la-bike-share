@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import Home from './screens/home';
-import FilterForm from './screens/filterForm';
-import StationResults from './screens/filterForm';
+import rentForm from './screens/rentForm';
+import StationResults from './screens/stationResults';
 
 const screens = {
   Home: {
@@ -11,10 +11,16 @@ const screens = {
       title: 'Welcome to Bike Share',
     }
   },
-  FilterForm: {
-    screen: FilterForm,
+  RentForm: {
+    screen: rentForm,
     navigationOptions: {
-      title: 'Review Details',
+      title: 'Renting options',
+    }
+  },
+  ReturningForm: {
+    screen: rentForm,
+    navigationOptions: {
+      title: 'Returning options',
     }
   },
   StationResults: {

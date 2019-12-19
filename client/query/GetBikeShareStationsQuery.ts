@@ -1,14 +1,27 @@
 import { gql } from 'apollo-boost'
 
 const GetBikeShareStationsQuery = gql`
-      {
-          bikeShareStations{
-            id
-            status{
-              totalBikesAvailable
-            }
-          }
+query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, $smart: Int!)
+  {
+    filterAvailableStations(
+      regionId: $region,
+      types: {
+        viewAll: false,
+        classic: $classic,
+        electric: $electric,
+        smart: $smart
       }
+    ){
+      name
+      availability{
+        type{
+          classic
+          electric
+          smart
+        }
+      }
+    }
+  }
 `;
 
 export default GetBikeShareStationsQuery;
