@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 export default function StationItem({ item }) {
     return (
         <TouchableOpacity>
-            <Text style={styles.item}>{item.id}</Text>
+            <Text style={styles.item}>{item.name}</Text>
         </TouchableOpacity>
     );
 }

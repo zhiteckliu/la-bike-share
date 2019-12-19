@@ -24,14 +24,16 @@ export default function filterForm({ navigation }) {
         {props => (
           <>
             <View style={styles.section}>
-              <Text>Please select a region</Text>
+              <Text>Region</Text>
               <Picker
-                selectedValue={region}
+                selectedValue={props.values.region}
                 onValueChange={(itemValue, itemIndex) => {
-                  setRegion(itemValue)
-                  props.setFieldValue('region', itemValue)
+                  if (itemValue != 0) {
+                    props.setFieldValue('region', itemValue)
+                  }
                 }}
               >
+                <Picker.Item label='Please select a region' value='0' />
                 {regionOptions.map((option) => (
                   <Picker.Item label={option.name} value={option.id} key={option.id} />
                 ))}
