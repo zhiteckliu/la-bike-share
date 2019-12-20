@@ -12,7 +12,7 @@ export default function Home({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('RentForm')}>
           <Text style={styles.item}>Rent</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ReturningForm')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ReturnForm')}>
           <Text style={styles.item}>Return</Text>
         </TouchableOpacity>
       </View>

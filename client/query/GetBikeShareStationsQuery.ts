@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost'
 
-const GetBikeShareStationsQuery = gql`
+export const FilterAvailableStationQuery = gql`
 query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, $smart: Int!)
   {
     filterAvailableStations(
@@ -28,4 +28,25 @@ query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, 
   }
 `;
 
-export default GetBikeShareStationsQuery;
+export const FindEmptyDocksQuery = gql`
+query FindEmptyDocks($region: String!, $total: Int!)
+  {
+    findEmptyDocks(
+      regionId: $region,
+      numBikesReturn: $total
+    ){
+      id
+      name
+      address
+      availability{
+        total
+        emptyDocks
+        type{
+          classic
+          electric
+          smart
+        }
+      }
+    }
+  }
+`;

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Picker, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
-
+import { find } from 'lodash'
 export default function filterForm({ navigation }) {
-  const [region, setRegion] = useState('');
-
   const regionOptions = [
     { name: 'City of LA', id: 'bcycle_lametro_region_1' },
     { name: 'Westside', id: 'bcycle_lametro_region_2' },
@@ -18,7 +16,8 @@ export default function filterForm({ navigation }) {
         initialValues={{ region: '', classic: 0, electric: 0, smart: 0 }}
         onSubmit={(values, actions) => {
           actions.resetForm();
-          return navigation.navigate('StationResults', values);
+          const regionName = find(regionOptions, { id: values.region }).name
+          return navigation.navigate('RentResults', { ...values, regionName });
         }}
       >
         {props => (

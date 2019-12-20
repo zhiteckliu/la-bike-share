@@ -2,7 +2,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import Home from './screens/home';
 import rentForm from './screens/rentForm';
-import StationResults from './screens/stationResults';
+import returnForm from './screens/returnForm';
+import rentResults from './screens/rentResults';
+import returnResults from './screens/returnResults';
 
 const screens = {
   Home: {
@@ -17,16 +19,22 @@ const screens = {
       title: 'Renting options',
     }
   },
-  ReturningForm: {
-    screen: rentForm,
+  ReturnForm: {
+    screen: returnForm,
     navigationOptions: {
       title: 'Returning options',
     }
   },
-  StationResults: {
-    screen: StationResults,
+  RentResults: {
+    screen: rentResults,
     navigationOptions: {
-      title: 'Results',
+      title: 'Rent Results',
+    }
+  },
+  ReturnResults: {
+    screen: returnResults,
+    navigationOptions: {
+      title: 'Return Results',
     }
   }
 };
