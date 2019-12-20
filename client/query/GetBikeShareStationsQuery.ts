@@ -13,7 +13,10 @@ query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, 
       }
     ){
       name
+      address
       availability{
+        total
+        emptyDocks
         type{
           classic
           electric
