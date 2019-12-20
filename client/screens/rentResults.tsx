@@ -50,8 +50,8 @@ export default function stationResults({ navigation }) {
   });
 
   if (loading) return (
-    <View>
-      <Text>Loading....</Text>
+    <View style={styles.loading}>
+      <Text style={styles.loadingText}>Loading....</Text>
     </View>
   )
   console.log(data)
@@ -77,6 +77,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  loadingText: {
+    textAlign: 'center'
   },
   summaryBlock: {
     alignItems: 'center'
