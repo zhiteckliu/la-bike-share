@@ -66,13 +66,14 @@ const resolvers = {
       return filteredRegionList.filter(station =>
         filteredAvailableList.some(status => status.station_id === station.id))
     },
-    findEmptyDocks: async (parent: any, args: { numBikesReturn: number }) => {
+    findEmptyDocks: async (parent: any, args: { regionId: string, numBikesReturn: number }) => {
       const stationInfolist = await GetStationsInformation()
         .then((response) => {
           let stationList: IStationInformation[] = [];
           const { data } = response.data
           const { stations } = data
-          stations.forEach((station) => {
+          const filteredStations = _.filter(stations, { region_id: args.regionId })
+          filteredStations.forEach((station) => {
             stationList.push(StationInformationResponseMapper(station));
           });
           return stationList

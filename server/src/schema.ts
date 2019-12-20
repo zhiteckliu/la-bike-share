@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 const typeDefs = gql`
   type Query {
     filterAvailableStations(regionId: String, types: BikeTypeAvailable):[StationInformation],
-    findEmptyDocks(numBikesReturn: Int):[StationInformation],
+    findEmptyDocks(regionId: String, numBikesReturn: Int):[StationInformation],
     stations:[StationInformation],
     regions:[RegionInformation],
   }
