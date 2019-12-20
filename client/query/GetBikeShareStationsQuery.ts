@@ -12,6 +12,7 @@ query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, 
         smart: $smart
       }
     ){
+      id
       name
       address
       availability{
