@@ -2,7 +2,13 @@ import React from 'react';
 import { View, Text, Picker, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
 import { find } from 'lodash'
+import * as yup from 'yup'
 import globalStyles from '../styles/global'
+
+const formSchema = yup.object({
+  region: yup.string()
+    .required('Required'),
+})
 
 export default function filterForm({ navigation }) {
   const regionOptions = [
@@ -16,6 +22,7 @@ export default function filterForm({ navigation }) {
     <View style={globalStyles.container}>
       <Formik
         initialValues={{ region: '', classic: 0, electric: 0, smart: 0 }}
+        validationSchema={formSchema}
         onSubmit={(values, actions) => {
           actions.resetForm();
           const regionName = find(regionOptions, { id: values.region }).name
@@ -25,7 +32,13 @@ export default function filterForm({ navigation }) {
         {props => (
           <>
             <View style={globalStyles.section}>
-              <Text>Region</Text>
+              <Text>Region
+                {
+                  props.errors.region && props.touched.region
+                    ? (<Text style={{ color: 'red' }}> ({props.errors.region})</Text>)
+                    : null
+                }
+              </Text>
               <Picker
                 selectedValue={props.values.region}
                 onValueChange={(itemValue, itemIndex) => {
@@ -41,7 +54,9 @@ export default function filterForm({ navigation }) {
               </Picker>
             </View>
             <View style={globalStyles.section}>
-              <Text>Select the type and number bike</Text>
+              <Text>Select the type and number bike
+                <Text style={{ color: '#333', fontStyle: 'italic' }}> (optional)</Text>
+              </Text>
               <View style={globalStyles.optionItem}>
                 <Text>Classic</Text>
                 <TextInput
