@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
-import StationItem from '../components/StationItem';
 
+import StationItem from '../components/StationItem';
 import { FilterAvailableStationQuery } from '../query/GetBikeShareStationsQuery';
+import globalStyles from '../styles/global'
 
 const summaryText = (region, bikesQuery, total) => {
   if (total > 0) {
     const stationPlural = total === 1 ? 'station' : 'stations';
     return (
-      <View style={styles.summaryBlock}>
-        <View style={styles.summaryText}>
+      <View style={globalStyles.summaryBlock}>
+        <View style={globalStyles.summaryText}>
           <Text>{total} {stationPlural} fulfils your request of:</Text>
-          <Text style={styles.summaryHighlight}>- {region}</Text>
+          <Text style={globalStyles.summaryHighlight}>- {region}</Text>
           {
             Object.keys(bikesQuery).map(type => {
               const bikeTypeCount = bikesQuery[type];
               if (bikeTypeCount > 0) return (
                 <Text key={type}>
-                  - min. of {bikeTypeCount} <Text style={styles.summaryHighlight}>{type}</Text> bike
+                  - min. of {bikeTypeCount} <Text style={globalStyles.summaryHighlight}>{type}</Text> bike
                 </Text>
               )
             })
@@ -50,15 +51,15 @@ export default function stationResults({ navigation }) {
   });
 
   if (loading) return (
-    <View style={styles.loading}>
-      <Text style={styles.loadingText}>Loading....</Text>
+    <View style={globalStyles.loading}>
+      <Text style={globalStyles.loadingText}>Loading....</Text>
     </View>
   )
   console.log(data)
   const { filterAvailableStations } = data
   if (filterAvailableStations) {
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         <FlatList
           data={filterAvailableStations}
           renderItem={({ item }) => (
@@ -71,27 +72,3 @@ export default function stationResults({ navigation }) {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-  loading: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  loadingText: {
-    textAlign: 'center'
-  },
-  summaryBlock: {
-    alignItems: 'center'
-  },
-  summaryText: {
-    width: 230
-  },
-  summaryHighlight: {
-    fontWeight: '600'
-  }
-});

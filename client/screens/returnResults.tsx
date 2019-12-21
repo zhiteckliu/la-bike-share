@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
-import StationItem from '../components/StationItem';
 
+import StationItem from '../components/StationItem';
 import { FindEmptyDocksQuery } from '../query/GetBikeShareStationsQuery';
+import globalStyles from '../styles/global'
 
 const summaryText = (region, total, bikesToReturn) => {
   if (total > 0) {
     const stationPlural = total === 1 ? 'station' : 'stations';
     return (
-      <View style={styles.summaryBlock}>
-        <View style={styles.summaryText}>
+      <View style={globalStyles.summaryBlock}>
+        <View style={globalStyles.summaryText}>
           <Text>{total} {stationPlural} fulfils your request of:</Text>
-          <Text style={styles.summaryHighlight}>- {region}</Text>
-          <Text>- min. of {bikesToReturn} <Text style={styles.summaryHighlight}>vacant</Text> docks</Text>
+          <Text style={globalStyles.summaryHighlight}>- {region}</Text>
+          <Text>- min. of {bikesToReturn} <Text style={globalStyles.summaryHighlight}>vacant</Text> docks</Text>
         </View>
       </View>
     )
@@ -31,15 +32,15 @@ export default function stationResults({ navigation }) {
   });
 
   if (loading) return (
-    <View style={styles.loading}>
-      <Text style={styles.loadingText}>Loading....</Text>
+    <View style={globalStyles.loading}>
+      <Text style={globalStyles.loadingText}>Loading....</Text>
     </View>
   )
   console.log(data)
   const { findEmptyDocks } = data
   if (findEmptyDocks) {
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         <FlatList
           data={findEmptyDocks}
           renderItem={({ item }) => (
@@ -52,27 +53,3 @@ export default function stationResults({ navigation }) {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-  loading: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  loadingText: {
-    textAlign: 'center'
-  },
-  summaryBlock: {
-    alignItems: 'center'
-  },
-  summaryText: {
-    width: 230
-  },
-  summaryHighlight: {
-    fontWeight: '600'
-  }
-});

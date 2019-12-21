@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Picker, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
 import { find } from 'lodash'
+import globalStyles from '../styles/global'
+
 export default function filterForm({ navigation }) {
     const regionOptions = [
         { name: 'City of LA', id: 'bcycle_lametro_region_1' },
@@ -22,7 +24,7 @@ export default function filterForm({ navigation }) {
             >
                 {props => (
                     <>
-                        <View style={styles.section}>
+                        <View style={globalStyles.section}>
                             <Text>Region</Text>
                             <Picker
                                 selectedValue={props.values.region}
@@ -38,8 +40,8 @@ export default function filterForm({ navigation }) {
                                 ))}
                             </Picker>
                         </View>
-                        <View style={styles.section}>
-                            <View style={styles.optionItem}>
+                        <View style={globalStyles.section}>
+                            <View style={globalStyles.optionItem}>
                                 <Text>Total number of bikes to return</Text>
                                 <TextInput
                                     placeholder='1'
@@ -48,10 +50,10 @@ export default function filterForm({ navigation }) {
                                 />
                             </View>
                         </View>
-                        <View style={styles.sectionBottom}>
+                        <View style={globalStyles.sectionBottom}>
                             <TouchableOpacity onPress={props.handleSubmit}>
-                                <View style={styles.button} >
-                                    <Text style={styles.buttonText}>Done</Text>
+                                <View style={globalStyles.button} >
+                                    <Text style={globalStyles.buttonText}>Done</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -62,36 +64,3 @@ export default function filterForm({ navigation }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 24,
-    },
-    section: {
-        marginTop: 16
-    },
-    sectionBottom: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 36,
-    },
-    optionItem: {
-        marginTop: 16,
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    button: {
-        borderRadius: 8,
-        paddingVertical: 14,
-        paddingHorizontal: 10,
-        backgroundColor: '#f01d71',
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        fontSize: 16,
-        textAlign: 'center',
-    }
-});
