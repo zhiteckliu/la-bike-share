@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, Button } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import StationItem from '../components/StationItem';
@@ -31,6 +31,12 @@ const summaryText = (region, bikesQuery, total) => {
 }
 
 export default function stationResults({ navigation }) {
+  const [isMapView, setIsMapView] = useState(false);
+
+  const onMapViewClick = () => {
+    setIsMapView(!isMapView);
+  }
+
   const region = navigation.getParam('region');
   const regionName = navigation.getParam('regionName')
 
@@ -45,7 +51,6 @@ export default function stationResults({ navigation }) {
   const { loading, error, data } = useQuery(FilterAvailableStationQuery, {
     variables: { region, classic, electric, smart }
   });
-
   if (loading) return (
     <View style={globalStyles.loading}>
       <Text style={globalStyles.loadingText}>Loading....</Text>
@@ -56,14 +61,21 @@ export default function stationResults({ navigation }) {
   if (filterAvailableStations) {
     return (
       <View style={globalStyles.container}>
-        <FlatList
-          data={filterAvailableStations}
-          renderItem={({ item }) => (
-            <StationItem item={item} />
-          )}
-          ListHeaderComponent={summaryText(regionName, bikesQuery, filterAvailableStations.length)}
-          keyExtractor={item => item.id}
+        <Button
+          title={isMapView ? 'List View' : 'Map View'}
+          onPress={onMapViewClick}
+
         />
+        {!isMapView &&
+          <FlatList
+            data={filterAvailableStations}
+            renderItem={({ item }) => (
+              <StationItem item={item} />
+            )}
+            ListHeaderComponent={summaryText(regionName, bikesQuery, filterAvailableStations.length)}
+            keyExtractor={item => item.id}
+            stickyHeaderIndices={[0]}
+          />}
       </View>
     );
   }
