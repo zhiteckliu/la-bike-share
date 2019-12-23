@@ -33,9 +33,6 @@ const summaryText = (region, bikesQuery, total) => {
 export default function stationResults({ navigation }) {
   const region = navigation.getParam('region');
   const regionName = navigation.getParam('regionName')
-  // const classic = parseInt(navigation.getParam('classic', '0'));
-  // const electric = parseInt(navigation.getParam('electric', '0'));
-  // const smart = parseInt(navigation.getParam('smart', '0'));
 
   const bikesQuery = {
     classic: parseInt(navigation.getParam('classic', '0')),
@@ -45,7 +42,6 @@ export default function stationResults({ navigation }) {
 
   const { classic, electric, smart } = bikesQuery;
 
-  console.log(`${region}, ${classic}, ${electric}, ${smart}`)
   const { loading, error, data } = useQuery(FilterAvailableStationQuery, {
     variables: { region, classic, electric, smart }
   });
@@ -55,7 +51,7 @@ export default function stationResults({ navigation }) {
       <Text style={globalStyles.loadingText}>Loading....</Text>
     </View>
   )
-  console.log(data)
+
   const { filterAvailableStations } = data
   if (filterAvailableStations) {
     return (

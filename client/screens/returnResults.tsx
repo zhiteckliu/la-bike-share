@@ -26,7 +26,6 @@ export default function stationResults({ navigation }) {
   const regionName = navigation.getParam('regionName')
   const bikesToReturn = parseInt(navigation.getParam('total', '0'));
 
-  console.log(`${region}, ${bikesToReturn}`)
   const { loading, error, data } = useQuery(FindEmptyDocksQuery, {
     variables: { region, total: bikesToReturn }
   });
@@ -36,7 +35,7 @@ export default function stationResults({ navigation }) {
       <Text style={globalStyles.loadingText}>Loading....</Text>
     </View>
   )
-  console.log(data)
+
   const { findEmptyDocks } = data
   if (findEmptyDocks) {
     return (

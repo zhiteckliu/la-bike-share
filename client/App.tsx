@@ -1,8 +1,6 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
-import BikeShareContainer from './container/BikeShareContainer';
-
 import Navigator from './routes'
 
 const client = new ApolloClient({
