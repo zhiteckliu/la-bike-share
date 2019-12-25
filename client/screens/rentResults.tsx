@@ -31,13 +31,7 @@ const summaryText = (region, bikesQuery, total) => {
 }
 
 export default function stationResults({ navigation }) {
-  const [isMapView, setIsMapView] = useState(false);
-
-  const onMapViewClick = () => {
-    setIsMapView(!isMapView);
-  }
-
-  const region = navigation.getParam('region');
+  const filterAvailableStations = navigation.dangerouslyGetParent().getParam('filterAvailableStations');
   const regionName = navigation.getParam('regionName')
 
   const bikesQuery = {
@@ -46,36 +40,17 @@ export default function stationResults({ navigation }) {
     smart: parseInt(navigation.getParam('smart', '0')),
   }
 
-  const { classic, electric, smart } = bikesQuery;
-
-  const { loading, error, data } = useQuery(FilterAvailableStationQuery, {
-    variables: { region, classic, electric, smart }
-  });
-  if (loading) return (
-    <View style={globalStyles.loading}>
-      <Text style={globalStyles.loadingText}>Loading....</Text>
-    </View>
-  )
-
-  const { filterAvailableStations } = data
   if (filterAvailableStations) {
     return (
       <View style={globalStyles.container}>
-        <Button
-          title={isMapView ? 'List View' : 'Map View'}
-          onPress={onMapViewClick}
-
+        <FlatList
+          data={filterAvailableStations}
+          renderItem={({ item }) => (
+            <StationItem item={item} />
+          )}
+          ListHeaderComponent={summaryText(regionName, bikesQuery, filterAvailableStations.length)}
+          keyExtractor={item => item.id}
         />
-        {!isMapView &&
-          <FlatList
-            data={filterAvailableStations}
-            renderItem={({ item }) => (
-              <StationItem item={item} />
-            )}
-            ListHeaderComponent={summaryText(regionName, bikesQuery, filterAvailableStations.length)}
-            keyExtractor={item => item.id}
-            stickyHeaderIndices={[0]}
-          />}
       </View>
     );
   }
