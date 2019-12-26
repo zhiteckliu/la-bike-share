@@ -46,7 +46,7 @@ export default function stationResults({ navigation }) {
         <FlatList
           data={filterAvailableStations}
           renderItem={({ item }) => (
-            <StationItem item={item} />
+            <StationItem station={item} />
           )}
           ListHeaderComponent={summaryText(regionName, bikesQuery, filterAvailableStations.length)}
           keyExtractor={item => item.id}

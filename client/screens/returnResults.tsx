@@ -43,7 +43,7 @@ export default function stationResults({ navigation }) {
         <FlatList
           data={findEmptyDocks}
           renderItem={({ item }) => (
-            <StationItem item={item} />
+            <StationItem station={item} />
           )}
           ListHeaderComponent={summaryText(regionName, findEmptyDocks.length, bikesToReturn)}
           keyExtractor={item => item.id}

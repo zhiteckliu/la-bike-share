@@ -3,8 +3,8 @@ import { Text, View, TouchableOpacity, Image } from 'react-native';
 
 import globalStyles from '../styles/global';
 
-export default function StationItem({ item }) {
-  const { name, address, availability } = item;
+export default function StationItem({ station }) {
+  const { name, address, availability } = station;
   const { emptyDocks, total, type } = availability;
   const { classic, electric, smart } = type;
   const pinIcon = require('../assets/pin.png')
