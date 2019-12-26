@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import { getRegionForCoordinates, LongLat } from '../utility'
+import StationItem from '../components/StationItem'
 import globalStyles from '../styles/global'
 
 
@@ -23,10 +24,14 @@ export default function MapViewResults({ navigation }) {
         {filterAvailableStations.map(station => (
           <Marker
             coordinate={{ longitude: station.long, latitude: station.lat }}
-            title={station.name}
-            description={station.address}
             key={station.id}
-          />
+          >
+            <Callout>
+              <StationItem
+                station={station}
+              />
+            </Callout>
+          </Marker>
         ))}
       </MapView>
     );
