@@ -55,3 +55,7 @@ export default function stationResults({ navigation }) {
     );
   }
 }
+
+stationResults.navigationOptions = {
+  title: 'List'
+}

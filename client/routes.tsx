@@ -8,18 +8,13 @@ import returnForm from './screens/returnForm';
 import rentResults from './screens/rentResults';
 import rentResultsLoading from './screens/rentResultsLoading'
 import returnResults from './screens/returnResults';
+import MapViewResults from './screens/mapView';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-
-const testMapView = () => (
-  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Text>Map View</Text>
-  </View>
-);
 
 const RentResultsTabNavigator = createMaterialTopTabNavigator(
   {
     rentResults,
-    testMapView
+    MapViewResults
   },
   {
     swipeEnabled: false,
