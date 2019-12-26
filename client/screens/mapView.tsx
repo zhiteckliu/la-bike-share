@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { getRegionForCoordinates, LongLat } from '../utility'
 import StationItem from '../components/StationItem'
+import { onStationItemPress } from '../utility'
 import globalStyles from '../styles/global'
 
 
@@ -26,7 +27,7 @@ export default function MapViewResults({ navigation }) {
             coordinate={{ longitude: station.long, latitude: station.lat }}
             key={station.id}
           >
-            <Callout>
+            <Callout onPress={() => onStationItemPress(station)}>
               <StationItem
                 station={station}
               />

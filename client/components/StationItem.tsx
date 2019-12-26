@@ -1,7 +1,9 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Alert } from 'react-native';
+import getDirections from 'react-native-google-maps-directions';
 
 import globalStyles from '../styles/global';
+import { onStationItemPress } from '../utility'
 
 export default function StationItem({ station }) {
   const { name, address, availability } = station;
@@ -9,7 +11,7 @@ export default function StationItem({ station }) {
   const { classic, electric, smart } = type;
   const pinIcon = require('../assets/pin.png')
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => onStationItemPress(station)}>
       <View style={globalStyles.item}>
         <View style={globalStyles.overview}>
           <View style={globalStyles.overviewSection}>

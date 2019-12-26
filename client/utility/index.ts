@@ -1,3 +1,6 @@
+import { Alert } from 'react-native';
+import getDirections from 'react-native-google-maps-directions';
+
 export type LongLat = {
   long: number,
   lat: number
@@ -24,4 +27,15 @@ export function getRegionForCoordinates(points: LongLat[]) {
     latitudeDelta: deltaX,
     longitudeDelta: deltaY
   };
+}
+
+export function onStationItemPress(station) {
+  Alert.alert(
+    'Open station in Google map',
+    station.address,
+    [
+      { text: 'Ok', onPress: () => getDirections({ destination: { latitude: station.lat, longitude: station.long } }) },
+      { text: 'Cancel', style: 'cancel' }
+    ]
+  )
 }
