@@ -15,6 +15,8 @@ query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, 
       id
       name
       address
+      long
+      lat
       availability{
         total
         emptyDocks
@@ -38,6 +40,8 @@ query FindEmptyDocks($region: String!, $total: Int!)
       id
       name
       address
+      long
+      lat
       availability{
         total
         emptyDocks
