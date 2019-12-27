@@ -17,9 +17,12 @@ export default function StationItem({ station }) {
           <View style={globalStyles.overviewSection}>
             <Text style={globalStyles.name}>{name}</Text>
             <View style={globalStyles.address}>
-              <Image
-                source={pinIcon}
-                style={globalStyles.addressIcon} />
+              <Text>
+                <Image
+                  source={pinIcon}
+                  style={globalStyles.addressIcon}
+                  resizeMode='cover' />
+              </Text>
               <Text style={globalStyles.addressText}>{address}</Text>
             </View>
           </View>

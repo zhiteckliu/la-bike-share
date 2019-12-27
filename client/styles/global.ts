@@ -97,8 +97,8 @@ const globalStyles = StyleSheet.create({
     fontStyle: 'italic'
   },
   addressIcon: {
-    height: 20,
-    width: 20
+    height: 15,
+    width: 15,
   },
   totalSection: {
     flex: 1,
