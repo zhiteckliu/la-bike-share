@@ -23,7 +23,7 @@ const globalStyles = StyleSheet.create({
   item: {
     padding: 16,
     textAlign: 'center',
-    marginTop: 16,
+    margin: 10,
     borderColor: '#333',
     borderWidth: 1,
     borderStyle: 'dashed',
