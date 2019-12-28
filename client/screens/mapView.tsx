@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import { getRegionForCoordinates, LongLat } from '../utility'
 import StationItem from '../components/StationItem'
-import { onStationItemPress } from '../utility'
+import { onStationItemPress, calcRadiusFactor } from '../utility'
 import globalStyles from '../styles/global'
 
 
@@ -18,13 +18,14 @@ export default function MapViewResults({ navigation }) {
       return point
     })
     const initialRegion = getRegionForCoordinates(points);
-    const [radiusFactor, setRadiusFactor] = useState((initialRegion.latitudeDelta + initialRegion.longitudeDelta) / 2 * 3000)
+    const [radiusFactor, setRadiusFactor] = useState(calcRadiusFactor(initialRegion.latitudeDelta, initialRegion.longitudeDelta));
+
     return (
       <MapView
         style={{ flex: 1 }}
-        initialRegion={getRegionForCoordinates(points)}
+        initialRegion={initialRegion}
         onRegionChangeComplete={({ latitudeDelta, longitudeDelta }) => (
-          setRadiusFactor((latitudeDelta + longitudeDelta) / 2 * 3000)
+          setRadiusFactor(calcRadiusFactor(latitudeDelta, longitudeDelta))
         )}
       >
         {filterAvailableStations.map(station => (
