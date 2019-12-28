@@ -10,14 +10,16 @@ import globalStyles from '../styles/global'
 export default function MapViewResults({ navigation }) {
   const filterAvailableStations = navigation.dangerouslyGetParent().getParam('filterAvailableStations');
   if (filterAvailableStations) {
-    const points: LongLat[] = filterAvailableStations.map(station => {
-      const point: LongLat = {
-        long: station.long,
-        lat: station.lat
-      }
-      return point
+    let maxAvailability = 0;
+    let stationPoints: LongLat[] = [];
+
+    filterAvailableStations.forEach((station) => {
+      const stationAvailability = station.availability.total;
+      stationPoints.push({ long: station.long, lat: station.lat });
+      maxAvailability = stationAvailability > maxAvailability ? stationAvailability : maxAvailability;
     })
-    const initialRegion = getRegionForCoordinates(points);
+
+    const initialRegion = getRegionForCoordinates(stationPoints);
     const [radiusFactor, setRadiusFactor] = useState(calcRadiusFactor(initialRegion.latitudeDelta, initialRegion.longitudeDelta));
 
     return (
@@ -41,7 +43,7 @@ export default function MapViewResults({ navigation }) {
             </Marker>
             <Circle
               center={{ longitude: station.long, latitude: station.lat }}
-              radius={radiusFactor * 1}
+              radius={radiusFactor * station.availability.total / maxAvailability}
             />
           </Fragment>
         ))}

@@ -41,5 +41,5 @@ export function onStationItemPress(station) {
 }
 
 export function calcRadiusFactor(latitudeDelta: number, longitudeDelta: number) {
-  return (latitudeDelta + longitudeDelta) / 2 * 3000
+  return (latitudeDelta + longitudeDelta) / 2 * 9000
 }
