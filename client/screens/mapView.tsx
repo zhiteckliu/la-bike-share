@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { View, Text } from 'react-native';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import { getRegionForCoordinates, LongLat } from '../utility'
@@ -17,10 +17,15 @@ export default function MapViewResults({ navigation }) {
       }
       return point
     })
+    const initialRegion = getRegionForCoordinates(points);
+    const [radiusFactor, setRadiusFactor] = useState((initialRegion.latitudeDelta + initialRegion.longitudeDelta) / 2 * 3000)
     return (
       <MapView
         style={{ flex: 1 }}
         initialRegion={getRegionForCoordinates(points)}
+        onRegionChangeComplete={({ latitudeDelta, longitudeDelta }) => (
+          setRadiusFactor((latitudeDelta + longitudeDelta) / 2 * 3000)
+        )}
       >
         {filterAvailableStations.map(station => (
           <Fragment key={station.id}>
@@ -35,7 +40,7 @@ export default function MapViewResults({ navigation }) {
             </Marker>
             <Circle
               center={{ longitude: station.long, latitude: station.lat }}
-              radius={50}
+              radius={radiusFactor * 1}
             />
           </Fragment>
         ))}
