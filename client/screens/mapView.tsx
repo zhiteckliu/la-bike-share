@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View, Text } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
+import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import { getRegionForCoordinates, LongLat } from '../utility'
 import StationItem from '../components/StationItem'
 import { onStationItemPress } from '../utility'
@@ -23,16 +23,21 @@ export default function MapViewResults({ navigation }) {
         initialRegion={getRegionForCoordinates(points)}
       >
         {filterAvailableStations.map(station => (
-          <Marker
-            coordinate={{ longitude: station.long, latitude: station.lat }}
-            key={station.id}
-          >
-            <Callout onPress={() => onStationItemPress(station)}>
-              <StationItem
-                station={station}
-              />
-            </Callout>
-          </Marker>
+          <Fragment key={station.id}>
+            <Marker
+              coordinate={{ longitude: station.long, latitude: station.lat }}
+            >
+              <Callout onPress={() => onStationItemPress(station)}>
+                <StationItem
+                  station={station}
+                />
+              </Callout>
+            </Marker>
+            <Circle
+              center={{ longitude: station.long, latitude: station.lat }}
+              radius={50}
+            />
+          </Fragment>
         ))}
       </MapView>
     );
