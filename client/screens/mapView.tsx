@@ -44,6 +44,8 @@ export default function MapViewResults({ navigation }) {
             <Circle
               center={{ longitude: station.long, latitude: station.lat }}
               radius={radiusFactor * station.availability.total / maxAvailability}
+              strokeColor='#0080ff'
+              fillColor='rgba(0,128,255, 0.2)'
             />
           </Fragment>
         ))}
