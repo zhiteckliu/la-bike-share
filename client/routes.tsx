@@ -7,8 +7,8 @@ import rentForm from './screens/Rent/filterForm';
 import rentResultsLoading from './screens/Rent/resultLoading'
 import rentResultsList from './screens/Rent/resultList';
 import rentResultsMap from './screens/Rent/resultMap';
-import returnForm from './screens/returnForm';
-import returnResults from './screens/returnResults';
+import returnForm from './screens/Return/filterForm';
+import returnResultsList from './screens/Return/resultList';
 
 const RentResultsTabNavigator = createMaterialTopTabNavigator(
   {
@@ -54,7 +54,7 @@ const ScreenStack = createStackNavigator(
       }
     },
     ReturnResults: {
-      screen: returnResults,
+      screen: returnResultsList,
       navigationOptions: {
         title: 'Return Results',
       }
