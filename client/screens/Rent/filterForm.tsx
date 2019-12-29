@@ -3,7 +3,8 @@ import { View, Text, Picker, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
 import { find } from 'lodash'
 import * as yup from 'yup'
-import globalStyles from '../styles/global'
+
+import globalStyles from '../../styles/global'
 
 const formSchema = yup.object({
   region: yup.string()

@@ -1,10 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import { View, Text } from 'react-native';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
-import { getRegionForCoordinates, LongLat } from '../utility'
-import StationItem from '../components/StationItem'
-import { onStationItemPress, calcRadiusFactor } from '../utility'
-import globalStyles from '../styles/global'
+
+import { getRegionForCoordinates, LongLat } from '../../utility'
+import StationItem from '../../components/StationItem'
+import { onStationItemPress, calcRadiusFactor } from '../../utility'
 
 
 export default function MapViewResults({ navigation }) {

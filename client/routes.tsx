@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import Home from './screens/home';
-import rentForm from './screens/rentForm';
-import returnForm from './screens/returnForm';
-import rentResults from './screens/rentResults';
-import rentResultsLoading from './screens/rentResultsLoading'
-import returnResults from './screens/returnResults';
-import MapViewResults from './screens/mapView';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+
+import Home from './screens/home';
+import rentForm from './screens/Rent/filterForm';
+import rentResultsLoading from './screens/Rent/resultLoading'
+import rentResultsList from './screens/Rent/resultList';
+import rentResultsMap from './screens/Rent/resultMap';
+import returnForm from './screens/returnForm';
+import returnResults from './screens/returnResults';
 
 const RentResultsTabNavigator = createMaterialTopTabNavigator(
   {
-    rentResults,
-    MapViewResults
+    rentResultsList,
+    rentResultsMap
   },
   {
     swipeEnabled: false,

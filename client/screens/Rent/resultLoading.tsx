@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
-import { FilterAvailableStationQuery } from '../query/GetBikeShareStationsQuery';
-import globalStyles from '../styles/global'
+import { FilterAvailableStationQuery } from '../../query/GetBikeShareStationsQuery';
+import globalStyles from '../../styles/global'
 
 export default function stationResults({ navigation }) {
   const region = navigation.getParam('region');
@@ -23,7 +23,6 @@ export default function stationResults({ navigation }) {
 
   useEffect(() => {
     if (!loading) {
-      //console.log(data)
       navigation.navigate('RentResultsTab', data);
     }
   })

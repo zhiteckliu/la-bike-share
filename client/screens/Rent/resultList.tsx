@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import React from 'react';
+import { View, Text, FlatList } from 'react-native';
 
-import StationItem from '../components/StationItem';
-import { FilterAvailableStationQuery } from '../query/GetBikeShareStationsQuery';
-import globalStyles from '../styles/global'
+import StationItem from '../../components/StationItem';
+import globalStyles from '../../styles/global'
 
 const summaryText = (region, bikesQuery, total) => {
   if (total > 0) {
