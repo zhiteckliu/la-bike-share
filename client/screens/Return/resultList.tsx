@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
 
 import StationItem from '../../components/StationItem';
-import { FindEmptyDocksQuery } from '../../query/GetBikeShareStationsQuery';
 import globalStyles from '../../styles/global'
 
 const summaryText = (region, total, bikesToReturn) => {
@@ -22,21 +20,9 @@ const summaryText = (region, total, bikesToReturn) => {
 }
 
 export default function stationResults({ navigation }) {
-  const region = navigation.getParam('region');
+  const findEmptyDocks = navigation.dangerouslyGetParent().getParam('findEmptyDocks');
   const regionName = navigation.getParam('regionName')
-  const bikesToReturn = parseInt(navigation.getParam('total', '0'));
-
-  const { loading, error, data } = useQuery(FindEmptyDocksQuery, {
-    variables: { region, total: bikesToReturn }
-  });
-
-  if (loading) return (
-    <View style={globalStyles.loading}>
-      <Text style={globalStyles.loadingText}>Loading....</Text>
-    </View>
-  )
-
-  const { findEmptyDocks } = data
+  const bikesToReturn = navigation.getParam('total')
   if (findEmptyDocks) {
     return (
       <View style={globalStyles.container}>
@@ -51,4 +37,8 @@ export default function stationResults({ navigation }) {
       </View>
     );
   }
+}
+
+stationResults.navigationOptions = {
+  title: 'List'
 }
