@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import { FilterAvailableStationQuery } from '../../query/GetBikeShareStationsQuery';
 import globalStyles from '../../styles/global'
+import CentreText from '../../components/CentreText';
 
 export default function stationResults({ navigation }) {
+  const [text, setText] = useState('Loading...');
   const region = navigation.getParam('region');
   const regionName = navigation.getParam('regionName')
 
@@ -23,13 +25,16 @@ export default function stationResults({ navigation }) {
 
   useEffect(() => {
     if (!loading) {
-      navigation.navigate('RentResultsTab', { ...data, datakey: 'filterAvailableStations' });
+      if (data.filterAvailableStations && data.filterAvailableStations.length > 0) {
+        navigation.navigate('RentResultsTab', { ...data, datakey: 'filterAvailableStations' });
+      }
+      else {
+        setText('No results matched your query. Please try again.')
+      }
     }
   })
   return (
-    <View style={globalStyles.loading}>
-      <Text style={globalStyles.loadingText}>Loading....</Text>
-    </View>
+    <CentreText text={text} />
   )
 
 }

@@ -59,11 +59,11 @@ const globalStyles = StyleSheet.create({
   },
 
   // rentResults and returnResults
-  loading: {
+  centreText: {
     flex: 1,
     justifyContent: 'center',
   },
-  loadingText: {
+  centreTextContent: {
     textAlign: 'center'
   },
   summaryBlock: {
