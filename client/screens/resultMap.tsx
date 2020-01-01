@@ -12,36 +12,41 @@ import {
 
 export default function MapViewResults({ navigation }) {
   const [state, setState] = useState({
+    stations: [],
     radiusFactor: 0,
     initialRegion: null,
     maxAvailability: 0,
+    loading: true
   })
-
-  const datakey = navigation.dangerouslyGetParent().getParam('datakey');
-  const stations = navigation.dangerouslyGetParent().getParam(datakey);
 
   useEffect(() => {
-    let maxAvail = 0;
-    let stationPoints: LongLat[] = [];
+    const { loading } = state;
+    if (loading) {
+      const datakey = navigation.dangerouslyGetParent().getParam('datakey');
+      const fetchedStations = navigation.dangerouslyGetParent().getParam(datakey);
 
-    stations.forEach((station) => {
-      const stationAvailability = station.availability.total;
-      stationPoints.push({ long: station.long, lat: station.lat });
-      maxAvail = stationAvailability > maxAvail ? stationAvailability : maxAvail;
-    })
+      let maxAvail = 0;
+      let stationPoints: LongLat[] = [];
 
-    const initRegion = getRegionForCoordinates(stationPoints);
+      fetchedStations.forEach((station) => {
+        const stationAvailability = station.availability.total;
+        stationPoints.push({ long: station.long, lat: station.lat });
+        maxAvail = stationAvailability > maxAvail ? stationAvailability : maxAvail;
+      })
 
-    setState({
-      initialRegion: initRegion,
-      radiusFactor: calcRadiusFactor(initRegion.latitudeDelta, initRegion.longitudeDelta),
-      maxAvailability: maxAvail
-    })
-  })
+      const initRegion = getRegionForCoordinates(stationPoints);
+      setState({
+        stations: fetchedStations,
+        initialRegion: initRegion,
+        radiusFactor: calcRadiusFactor(initRegion.latitudeDelta, initRegion.longitudeDelta),
+        maxAvailability: maxAvail,
+        loading: false
+      })
+    }
+  }, [])
 
 
-  const { radiusFactor, initialRegion, maxAvailability } = state
-
+  const { stations, radiusFactor, initialRegion, maxAvailability } = state
   return (
     <MapView
       style={{ flex: 1 }}
