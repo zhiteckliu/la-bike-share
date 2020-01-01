@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import { FindEmptyDocksQuery } from '../../query/GetBikeShareStationsQuery';
-import globalStyles from '../../styles/global'
 import CentreText from '../../components/CentreText';
 
 export default function stationResults({ navigation }) {
   const [text, setText] = useState('Loading...');
   const region = navigation.getParam('region');
-  const regionName = navigation.getParam('regionName')
   const bikesToReturn = parseInt(navigation.getParam('total', '0'));
 
   const { loading, error, data } = useQuery(FindEmptyDocksQuery, {

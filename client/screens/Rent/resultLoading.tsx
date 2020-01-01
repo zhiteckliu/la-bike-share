@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import { FilterAvailableStationQuery } from '../../query/GetBikeShareStationsQuery';
-import globalStyles from '../../styles/global'
 import CentreText from '../../components/CentreText';
 
 export default function stationResults({ navigation }) {
