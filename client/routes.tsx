@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation-tabs';
 
 import Home from './screens/home';
 import rentForm from './screens/Rent/filterForm';
@@ -11,13 +11,10 @@ import returnForm from './screens/Return/filterForm';
 import returnResultsLoading from './screens/Return/resultLoading'
 import returnResultsList from './screens/Return/resultList';
 
-const ReturnResultsTabNavigator = createMaterialTopTabNavigator(
+const ReturnResultsTabNavigator = createBottomTabNavigator(
   {
     returnResultsList,
     ResultsMap,
-  },
-  {
-    swipeEnabled: false,
   }
 )
 
@@ -28,13 +25,10 @@ const ReturnResultSwitchNavigator = createSwitchNavigator(
   }
 )
 
-const RentResultsTabNavigator = createMaterialTopTabNavigator(
+const RentResultsTabNavigator = createBottomTabNavigator(
   {
     rentResultsList,
     ResultsMap
-  },
-  {
-    swipeEnabled: false,
   }
 )
 
