@@ -6,16 +6,15 @@ import Home from './screens/home';
 import rentForm from './screens/Rent/filterForm';
 import rentResultsLoading from './screens/Rent/resultLoading'
 import rentResultsList from './screens/Rent/resultList';
-import rentResultsMap from './screens/Rent/resultMap';
+import ResultsMap from './screens/resultMap';
 import returnForm from './screens/Return/filterForm';
 import returnResultsLoading from './screens/Return/resultLoading'
 import returnResultsList from './screens/Return/resultList';
-import returnResultsMap from './screens/Return/resultMap';
 
 const ReturnResultsTabNavigator = createMaterialTopTabNavigator(
   {
     returnResultsList,
-    returnResultsMap,
+    ResultsMap,
   },
   {
     swipeEnabled: false,
@@ -32,7 +31,7 @@ const ReturnResultSwitchNavigator = createSwitchNavigator(
 const RentResultsTabNavigator = createMaterialTopTabNavigator(
   {
     rentResultsList,
-    rentResultsMap
+    ResultsMap
   },
   {
     swipeEnabled: false,

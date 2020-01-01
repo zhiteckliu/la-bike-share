@@ -1,18 +1,23 @@
 import React, { Fragment, useState } from 'react';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 
-import { getRegionForCoordinates, LongLat } from '../../utility'
-import StationItem from '../../components/StationItem'
-import { onStationItemPress, calcRadiusFactor } from '../../utility'
+import StationItem from '../components/StationItem'
+import {
+  getRegionForCoordinates,
+  LongLat,
+  onStationItemPress,
+  calcRadiusFactor
+} from '../utility'
 
 
 export default function MapViewResults({ navigation }) {
-  const filterAvailableStations = navigation.dangerouslyGetParent().getParam('filterAvailableStations');
-  if (filterAvailableStations) {
+  const datakey = navigation.dangerouslyGetParent().getParam('datakey');
+  const stations = navigation.dangerouslyGetParent().getParam(datakey);
+  if (stations) {
     let maxAvailability = 0;
     let stationPoints: LongLat[] = [];
 
-    filterAvailableStations.forEach((station) => {
+    stations.forEach((station) => {
       const stationAvailability = station.availability.total;
       stationPoints.push({ long: station.long, lat: station.lat });
       maxAvailability = stationAvailability > maxAvailability ? stationAvailability : maxAvailability;
@@ -29,7 +34,7 @@ export default function MapViewResults({ navigation }) {
           setRadiusFactor(calcRadiusFactor(latitudeDelta, longitudeDelta))
         )}
       >
-        {filterAvailableStations.map(station => (
+        {stations.map(station => (
           <Fragment key={station.id}>
             <Marker
               coordinate={{ longitude: station.long, latitude: station.lat }}
@@ -45,7 +50,13 @@ export default function MapViewResults({ navigation }) {
               radius={radiusFactor * station.availability.total / maxAvailability}
               strokeColor='#0080ff'
               fillColor='rgba(0,128,255, 0.2)'
-            />
+            >
+              <Callout onPress={() => onStationItemPress(station)}>
+                <StationItem
+                  station={station}
+                />
+              </Callout>
+            </Circle>
           </Fragment>
         ))}
       </MapView>

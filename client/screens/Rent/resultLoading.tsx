@@ -23,7 +23,7 @@ export default function stationResults({ navigation }) {
 
   useEffect(() => {
     if (!loading) {
-      navigation.navigate('RentResultsTab', data);
+      navigation.navigate('RentResultsTab', { ...data, datakey: 'filterAvailableStations' });
     }
   })
   return (

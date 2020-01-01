@@ -16,7 +16,7 @@ export default function stationResults({ navigation }) {
 
   useEffect(() => {
     if (!loading) {
-      navigation.navigate('ReturnResultsTab', data);
+      navigation.navigate('ReturnResultsTab', { ...data, datakey: 'findEmptyDocks' });
     }
   })
   return (
