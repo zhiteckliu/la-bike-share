@@ -17,8 +17,6 @@ export default function filterForm({ navigation }) {
   const regionOptions = [
     { name: 'City of LA', id: 'bcycle_lametro_region_1' },
     { name: 'Westside', id: 'bcycle_lametro_region_2' },
-    { name: 'Port of LA', id: 'bcycle_lametro_region_3' },
-    { name: 'Pasadena', id: 'bcycle_lametro_region_4' },
   ];
 
   return (
