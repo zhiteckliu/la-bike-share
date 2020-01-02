@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Picker, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
 import { find } from 'lodash'
 import * as yup from 'yup'
+import RNPickerSelect from 'react-native-picker-select';
 
 import globalStyles from '../../styles/global'
 
@@ -13,8 +14,8 @@ const formSchema = yup.object({
 
 export default function filterForm({ navigation }) {
   const regionOptions = [
-    { name: 'City of LA', id: 'bcycle_lametro_region_1' },
-    { name: 'Westside', id: 'bcycle_lametro_region_2' },
+    { label: 'City of LA', value: 'bcycle_lametro_region_1' },
+    { label: 'Westside', value: 'bcycle_lametro_region_2' },
   ];
 
   return (
@@ -24,7 +25,7 @@ export default function filterForm({ navigation }) {
         validationSchema={formSchema}
         onSubmit={(values, actions) => {
           actions.resetForm();
-          const regionName = find(regionOptions, { id: values.region }).name
+          const regionName = find(regionOptions, { value: values.region }).label
           return navigation.navigate('RentResults', { ...values, regionName });
         }}
       >
@@ -38,19 +39,15 @@ export default function filterForm({ navigation }) {
                     : null
                 }
               </Text>
-              <Picker
-                selectedValue={props.values.region}
-                onValueChange={(itemValue, itemIndex) => {
+              <RNPickerSelect
+                onValueChange={(itemValue) => {
+                  console.log(itemValue)
                   if (itemValue != 0) {
                     props.setFieldValue('region', itemValue)
                   }
                 }}
-              >
-                <Picker.Item label='Please select a region' value='0' />
-                {regionOptions.map((option) => (
-                  <Picker.Item label={option.name} value={option.id} key={option.id} />
-                ))}
-              </Picker>
+                items={regionOptions}
+              />
             </View>
             <View style={globalStyles.section}>
               <Text>Select the type and number bike
@@ -62,6 +59,7 @@ export default function filterForm({ navigation }) {
                   placeholder='1'
                   onChangeText={props.handleChange('classic')}
                   keyboardType={'numeric'}
+                  returnKeyType='done'
                 />
               </View>
               <View style={globalStyles.optionItem}>
@@ -70,6 +68,7 @@ export default function filterForm({ navigation }) {
                   placeholder='1'
                   onChangeText={props.handleChange('electric')}
                   keyboardType={'numeric'}
+                  returnKeyType='done'
                 />
               </View>
               <View style={globalStyles.optionItem}>
