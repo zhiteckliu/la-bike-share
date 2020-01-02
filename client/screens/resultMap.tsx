@@ -72,11 +72,6 @@ export default function MapViewResults({ navigation }) {
             strokeColor='#0080ff'
             fillColor='rgba(0,128,255, 0.2)'
           >
-            <Callout onPress={() => onStationItemPress(station)}>
-              <StationItem
-                station={station}
-              />
-            </Callout>
           </Circle>
         </Fragment>
       ))}
