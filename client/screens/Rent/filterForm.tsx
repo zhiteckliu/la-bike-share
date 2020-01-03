@@ -4,6 +4,7 @@ import { Formik } from 'formik'
 import { find } from 'lodash'
 import * as yup from 'yup'
 import RNPickerSelect from 'react-native-picker-select';
+import { Ionicons } from '@expo/vector-icons';
 
 import globalStyles from '../../styles/global'
 
@@ -41,12 +42,23 @@ export default function filterForm({ navigation }) {
               </Text>
               <RNPickerSelect
                 onValueChange={(itemValue) => {
-                  console.log(itemValue)
                   if (itemValue != 0) {
                     props.setFieldValue('region', itemValue)
                   }
                 }}
                 items={regionOptions}
+                Icon={() => (<Ionicons name="ios-arrow-down" size={24} color="gray" />)}
+                style={{
+                  inputIOS: {
+                    color: 'black',
+                    paddingTop: 13,
+                    paddingHorizontal: 10,
+                    paddingBottom: 12,
+                  },
+                  inputIOSContainer: {
+                    borderBottom: 1
+                  }
+                }}
               />
             </View>
             <View style={globalStyles.section}>

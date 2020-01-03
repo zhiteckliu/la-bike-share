@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import StationItem from '../../components/StationItem';
 import globalStyles from '../../styles/global'
@@ -55,5 +56,8 @@ export default function stationResults({ navigation }) {
 }
 
 stationResults.navigationOptions = {
-  title: 'List'
+  title: 'List',
+  tabBarIcon: () => (
+    <Ionicons name="ios-list" size={24} color="gray" />
+  )
 }

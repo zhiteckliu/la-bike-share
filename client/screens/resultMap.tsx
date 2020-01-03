@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
+import { Ionicons } from '@expo/vector-icons';
 
 import StationItem from '../components/StationItem'
 import {
@@ -80,5 +81,8 @@ export default function MapViewResults({ navigation }) {
 }
 
 MapViewResults.navigationOptions = {
-  title: 'Map'
+  title: 'Map',
+  tabBarIcon: () => (
+    <Ionicons name="md-map" size={24} color="gray" />
+  )
 }
