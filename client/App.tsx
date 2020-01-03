@@ -2,6 +2,7 @@ import React from 'react';
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import Navigator from './routes'
+import StationContextProvider from './contexts/StationContext';
 
 const client = new ApolloClient({
   uri: 'http://HOST:4000/graphql'
@@ -10,7 +11,9 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <Navigator />
+      <StationContextProvider client={client}>
+        <Navigator />
+      </StationContextProvider>
     </ApolloProvider>
   );
 }
