@@ -22,12 +22,19 @@ export default function filterForm({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <Formik
-        initialValues={{ region: '', classic: 0, electric: 0, smart: 0 }}
+        initialValues={{ region: '', classic: '', electric: '', smart: '' }}
         validationSchema={formSchema}
         onSubmit={(values, actions) => {
           actions.resetForm();
+          const { region, classic, electric, smart } = values;
           const regionName = find(regionOptions, { value: values.region }).label
-          return navigation.navigate('RentResults', { ...values, regionName });
+          return navigation.navigate('RentResults', {
+            region,
+            classic: classic || 0,
+            electric: electric || 0,
+            smart: smart || 0,
+            regionName
+          });
         }}
       >
         {props => (
@@ -46,6 +53,7 @@ export default function filterForm({ navigation }) {
                     props.setFieldValue('region', itemValue)
                   }
                 }}
+                value={props.values.region}
                 items={regionOptions}
                 Icon={() => (<Ionicons name="ios-arrow-down" size={24} color="gray" />)}
                 style={{
@@ -69,10 +77,8 @@ export default function filterForm({ navigation }) {
                 <Text>Classic</Text>
                 <TextInput
                   placeholder='1'
-                  onChangeText={(value) => {
-                    const val = value === '' ? 0 : value;
-                    props.setFieldValue('classic', val);
-                  }}
+                  value={props.values.classic.toString()}
+                  onChangeText={props.handleChange('classic')}
                   keyboardType={'numeric'}
                   returnKeyType='done'
                 />
@@ -81,10 +87,8 @@ export default function filterForm({ navigation }) {
                 <Text>Electric</Text>
                 <TextInput
                   placeholder='1'
-                  onChangeText={(value) => {
-                    const val = value === '' ? 0 : value;
-                    props.setFieldValue('electric', val);
-                  }}
+                  value={props.values.electric.toString()}
+                  onChangeText={props.handleChange('electric')}
                   keyboardType={'numeric'}
                   returnKeyType='done'
                 />
@@ -93,10 +97,8 @@ export default function filterForm({ navigation }) {
                 <Text>Smart</Text>
                 <TextInput
                   placeholder='1'
-                  onChangeText={(value) => {
-                    const val = value === '' ? 0 : value;
-                    props.setFieldValue('smart', val);
-                  }}
+                  value={props.values.smart.toString()}
+                  onChangeText={props.handleChange('smart')}
                   keyboardType={'numeric'}
                   returnKeyType='done'
                 />
