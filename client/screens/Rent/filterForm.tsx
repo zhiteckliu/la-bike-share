@@ -69,7 +69,10 @@ export default function filterForm({ navigation }) {
                 <Text>Classic</Text>
                 <TextInput
                   placeholder='1'
-                  onChangeText={props.handleChange('classic')}
+                  onChangeText={(value) => {
+                    const val = value === '' ? 0 : value;
+                    props.setFieldValue('classic', val);
+                  }}
                   keyboardType={'numeric'}
                   returnKeyType='done'
                 />
@@ -78,7 +81,10 @@ export default function filterForm({ navigation }) {
                 <Text>Electric</Text>
                 <TextInput
                   placeholder='1'
-                  onChangeText={props.handleChange('electric')}
+                  onChangeText={(value) => {
+                    const val = value === '' ? 0 : value;
+                    props.setFieldValue('electric', val);
+                  }}
                   keyboardType={'numeric'}
                   returnKeyType='done'
                 />
@@ -87,8 +93,12 @@ export default function filterForm({ navigation }) {
                 <Text>Smart</Text>
                 <TextInput
                   placeholder='1'
-                  onChangeText={props.handleChange('smart')}
+                  onChangeText={(value) => {
+                    const val = value === '' ? 0 : value;
+                    props.setFieldValue('smart', val);
+                  }}
                   keyboardType={'numeric'}
+                  returnKeyType='done'
                 />
               </View>
             </View>
