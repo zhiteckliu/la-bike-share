@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import StationItem from '../../components/StationItem';
 import globalStyles from '../../styles/global'
+import { StationContext } from '../../contexts/StationContext';
 
 const summaryText = (region, bikesQuery, total) => {
   if (total > 0) {
@@ -30,7 +31,7 @@ const summaryText = (region, bikesQuery, total) => {
 }
 
 export default function stationResults({ navigation }) {
-  const filterAvailableStations = navigation.dangerouslyGetParent().getParam('filterAvailableStations');
+  const { stations } = useContext(StationContext);
   const regionName = navigation.getParam('regionName')
 
   const bikesQuery = {
@@ -39,15 +40,15 @@ export default function stationResults({ navigation }) {
     smart: parseInt(navigation.getParam('smart', '0')),
   }
 
-  if (filterAvailableStations) {
+  if (stations) {
     return (
       <View style={globalStyles.container}>
         <FlatList
-          data={filterAvailableStations}
+          data={stations}
           renderItem={({ item }) => (
             <StationItem station={item} />
           )}
-          ListHeaderComponent={summaryText(regionName, bikesQuery, filterAvailableStations.length)}
+          ListHeaderComponent={summaryText(regionName, bikesQuery, stations.length)}
           keyExtractor={item => item.id}
         />
       </View>

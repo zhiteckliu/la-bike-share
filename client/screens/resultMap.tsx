@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,27 +9,25 @@ import {
   onStationItemPress,
   calcRadiusFactor
 } from '../utility'
+import { StationContext } from '../contexts/StationContext';
 
 
 export default function MapViewResults({ navigation }) {
   const [state, setState] = useState({
-    stations: [],
     radiusFactor: 0,
     initialRegion: null,
     maxAvailability: 0,
-    loading: true
+    initialLoadComplete: false
   })
 
-  useEffect(() => {
-    const { loading } = state;
-    if (loading) {
-      const datakey = navigation.dangerouslyGetParent().getParam('datakey');
-      const fetchedStations = navigation.dangerouslyGetParent().getParam(datakey);
+  const { stations } = useContext(StationContext);
 
+  useEffect(() => {
+    if (stations.length > 0) {
       let maxAvail = 0;
       let stationPoints: LongLat[] = [];
 
-      fetchedStations.forEach((station) => {
+      stations.forEach((station) => {
         const stationAvailability = station.availability.total;
         stationPoints.push({ long: station.long, lat: station.lat });
         maxAvail = stationAvailability > maxAvail ? stationAvailability : maxAvail;
@@ -37,17 +35,16 @@ export default function MapViewResults({ navigation }) {
 
       const initRegion = getRegionForCoordinates(stationPoints);
       setState({
-        stations: fetchedStations,
         initialRegion: initRegion,
         radiusFactor: calcRadiusFactor(initRegion.latitudeDelta, initRegion.longitudeDelta),
         maxAvailability: maxAvail,
-        loading: false
+        initialLoadComplete: true
       })
     }
-  }, [])
+  }, [stations])
 
 
-  const { stations, radiusFactor, initialRegion, maxAvailability } = state
+  const { initialLoadComplete, radiusFactor, initialRegion, maxAvailability } = state
   return (
     <MapView
       style={{ flex: 1 }}
@@ -56,7 +53,7 @@ export default function MapViewResults({ navigation }) {
         setState(state => ({ ...state, radiusFactor: calcRadiusFactor(latitudeDelta, longitudeDelta) }))
       )}
     >
-      {stations.map(station => (
+      {initialLoadComplete && stations.map(station => (
         <Fragment key={station.id}>
           <Marker
             coordinate={{ longitude: station.long, latitude: station.lat }}

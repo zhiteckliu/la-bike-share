@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { useState, useEffect, useContext } from 'react';
 
-import { FilterAvailableStationQuery } from '../../query/GetBikeShareStationsQuery';
 import CentreText from '../../components/CentreText';
+import { StationContext } from '../../contexts/StationContext';
 
 export default function stationResults({ navigation }) {
   const [text, setText] = useState('Loading...');
   const region = navigation.getParam('region');
-  const regionName = navigation.getParam('regionName')
+
+  const { fetchStations } = useContext(StationContext);
 
   const bikesQuery = {
     classic: parseInt(navigation.getParam('classic', '0')),
@@ -17,20 +17,18 @@ export default function stationResults({ navigation }) {
 
   const { classic, electric, smart } = bikesQuery;
 
-  const { loading, error, data } = useQuery(FilterAvailableStationQuery, {
-    variables: { region, classic, electric, smart }
-  });
-
   useEffect(() => {
-    if (!loading) {
-      if (data.filterAvailableStations && data.filterAvailableStations.length > 0) {
-        navigation.navigate('RentResultsTab', { ...data, datakey: 'filterAvailableStations' });
+    fetchStations(region, classic, electric, smart).then(
+      (stations) => {
+        if (stations.length > 0) {
+          navigation.navigate('RentResultsTab');
+        }
+        else {
+          setText('No results matched your query. Please try again.');
+        }
       }
-      else {
-        setText('No results matched your query. Please try again.')
-      }
-    }
-  })
+    )
+  }, [])
   return (
     <CentreText text={text} />
   )
