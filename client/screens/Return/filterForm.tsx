@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Picker, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
 import { find } from 'lodash'
 import * as yup from 'yup'

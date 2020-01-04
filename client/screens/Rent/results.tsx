@@ -9,7 +9,7 @@ import MapViewResults from '../../components/MapViewResults';
 import { services, pageSize } from '../../constants';
 import ListViewResults from '../../components/ListViewResults';
 
-export default function stationResultsv2({ navigation }) {
+export default function RentalResults({ navigation }) {
   const [isListMode, setIsListMode] = useState(true);
   const region = navigation.getParam('region');
   const regionName = navigation.getParam('regionName');

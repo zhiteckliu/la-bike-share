@@ -1,45 +1,11 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation-tabs';
+import { createAppContainer } from 'react-navigation';
 
 import Home from './screens/home';
 import rentForm from './screens/Rent/filterForm';
-import rentResultsLoading from './screens/Rent/resultLoading'
-import rentResultsList from './screens/Rent/resultList';
-import ResultsMap from './components/MapViewResults';
 import returnForm from './screens/Return/filterForm';
-import returnResultsLoading from './screens/Return/resultLoading'
-import returnResultsList from './screens/Return/resultList';
-import stationResultsv2 from './screens/Rent/results';
+import RentalResults from './screens/Rent/results';
 import ReturnResults from './screens/Return/results';
-
-const ReturnResultsTabNavigator = createBottomTabNavigator(
-  {
-    returnResultsList,
-    ResultsMap,
-  }
-)
-
-const ReturnResultSwitchNavigator = createSwitchNavigator(
-  {
-    Loading: { screen: returnResultsLoading },
-    ReturnResultsTab: ReturnResultsTabNavigator
-  }
-)
-
-const RentResultsTabNavigator = createBottomTabNavigator(
-  {
-    rentResultsList,
-    ResultsMap
-  }
-)
-
-const RentResultSwitchNavigator = createSwitchNavigator(
-  {
-    Loading: { screen: rentResultsLoading },
-    RentResultsTab: RentResultsTabNavigator
-  }
-)
 
 const ScreenStack = createStackNavigator(
   {
@@ -62,7 +28,7 @@ const ScreenStack = createStackNavigator(
       }
     },
     RentResults: {
-      screen: stationResultsv2,
+      screen: RentalResults,
       navigationOptions: {
         title: 'Rent Results',
       }

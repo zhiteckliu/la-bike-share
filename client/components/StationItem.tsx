@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, Alert } from 'react-native';
-import getDirections from 'react-native-google-maps-directions';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 
 import globalStyles from '../styles/global';
 import { onStationItemPress } from '../utility'

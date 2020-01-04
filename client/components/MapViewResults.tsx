@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 
