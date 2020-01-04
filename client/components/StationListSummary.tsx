@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import globalStyles from '../styles/global';
 import { services } from '../utility/index';
 
-export default function StationListSummary(serviceType, regionName, total, query) {
+export default function StationListSummary({ serviceType, regionName, total, query }) {
   if (total > 0) {
     let subSummaryText = null;
 
