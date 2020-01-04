@@ -31,14 +31,15 @@ const resolvers = {
     },
     filterAvailableStations: async (
       parent: any,
-      args: { regionId: string, types: any }
+      args: { regionId: string, types: any, first: number, offset: number }
     ) => {
+      const { regionId, types, first, offset = 0 } = args;
       const filteredRegionList = await GetStationsInformation()
         .then((response) => {
           let stationList: IStationInformation[] = [];
           const { data } = response.data
           const { stations } = data
-          const unMappedFilteredRegionList = _.filter(stations, { region_id: args.regionId })
+          const unMappedFilteredRegionList = _.filter(stations, { region_id: regionId })
           unMappedFilteredRegionList.forEach((station) => {
             stationList.push(StationInformationResponseMapper(station));
           });
@@ -51,9 +52,6 @@ const resolvers = {
           const { stations } = data;
           const filteredAvailableList = _.filter(stations, (item) => {
             const { classic, electric, smart } = item.num_bikes_available_types;
-            const { types } = args
-
-            if (types.viewAll) return item.num_bikes_available > 0;
 
             return item.num_bikes_available > 0 &&
               classic >= (types.classic || 0) &&
@@ -63,8 +61,15 @@ const resolvers = {
           return filteredAvailableList;
         })
 
-      return filteredRegionList.filter(station =>
-        filteredAvailableList.some(status => status.station_id === station.id))
+      const filteredList = filteredRegionList.filter(station =>
+        filteredAvailableList.some(status => status.station_id === station.id));
+
+
+      const offsetList = first === undefined ?
+        filteredList.slice(offset) :
+        filteredList.slice(offset, offset + first);
+
+      return { total: filteredList.length, stations: offsetList }
     },
     findEmptyDocks: async (parent: any, args: { regionId: string, numBikesReturn: number }) => {
       const stationInfolist = await GetStationsInformation()
