@@ -5,21 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import StationItem from '../../components/StationItem';
 import globalStyles from '../../styles/global'
 import { StationContext } from '../../contexts/StationContext';
-
-const summaryText = (region, total, bikesToReturn) => {
-  if (total > 0) {
-    const stationPlural = total === 1 ? 'station' : 'stations';
-    return (
-      <View style={globalStyles.summaryBlock}>
-        <View style={globalStyles.summaryText}>
-          <Text>{total} {stationPlural} fulfils your request of:</Text>
-          <Text style={globalStyles.summaryHighlight}>- {region}</Text>
-          <Text>- min. of {bikesToReturn} <Text style={globalStyles.summaryHighlight}>vacant</Text> docks</Text>
-        </View>
-      </View>
-    )
-  }
-}
+import StationListSummary from '../../components/StationListSummary';
+import { services } from '../../utility';
 
 export default function stationResults({ navigation }) {
   const { stations } = useContext(StationContext);
@@ -33,7 +20,14 @@ export default function stationResults({ navigation }) {
           renderItem={({ item }) => (
             <StationItem station={item} />
           )}
-          ListHeaderComponent={summaryText(regionName, stations.length, bikesToReturn)}
+          ListHeaderComponent={
+            <StationListSummary
+              serviceType={services.RETURN}
+              regionName={regionName}
+              total={stations.length}
+              query={{ bikesToReturn }}
+            />
+          }
           keyExtractor={item => item.id}
         />
       </View>

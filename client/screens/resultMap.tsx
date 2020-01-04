@@ -10,9 +10,10 @@ import {
   calcRadiusFactor
 } from '../utility'
 import { StationContext } from '../contexts/StationContext';
+import CentreText from '../components/CentreText';
 
 
-export default function MapViewResults({ navigation }) {
+export default function MapViewResults({ stations }) {
   const [state, setState] = useState({
     radiusFactor: 0,
     initialRegion: null,
@@ -20,7 +21,7 @@ export default function MapViewResults({ navigation }) {
     initialLoadComplete: false
   })
 
-  const { stations } = useContext(StationContext);
+  //const { stations } = useContext(StationContext);
 
   useEffect(() => {
     if (stations.length > 0) {
@@ -34,6 +35,7 @@ export default function MapViewResults({ navigation }) {
       })
 
       const initRegion = getRegionForCoordinates(stationPoints);
+      console.log(initRegion)
       setState({
         initialRegion: initRegion,
         radiusFactor: calcRadiusFactor(initRegion.latitudeDelta, initRegion.longitudeDelta),
@@ -45,36 +47,42 @@ export default function MapViewResults({ navigation }) {
 
 
   const { initialLoadComplete, radiusFactor, initialRegion, maxAvailability } = state
-  return (
-    <MapView
-      style={{ flex: 1 }}
-      initialRegion={initialRegion}
-      onRegionChangeComplete={({ latitudeDelta, longitudeDelta }) => (
-        setState(state => ({ ...state, radiusFactor: calcRadiusFactor(latitudeDelta, longitudeDelta) }))
-      )}
-    >
-      {initialLoadComplete && stations.map(station => (
-        <Fragment key={station.id}>
-          <Marker
-            coordinate={{ longitude: station.long, latitude: station.lat }}
-          >
-            <Callout onPress={() => onStationItemPress(station)}>
-              <StationItem
-                station={station}
-              />
-            </Callout>
-          </Marker>
-          <Circle
-            center={{ longitude: station.long, latitude: station.lat }}
-            radius={radiusFactor * station.availability.total / maxAvailability}
-            strokeColor='#0080ff'
-            fillColor='rgba(0,128,255, 0.2)'
-          >
-          </Circle>
-        </Fragment>
-      ))}
-    </MapView>
+  if (!initialLoadComplete) return (
+    <CentreText text="Loading map..." />
   );
+  else {
+    return (
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={initialRegion}
+        onRegionChangeComplete={({ latitudeDelta, longitudeDelta }) => {
+          console.log(latitudeDelta, longitudeDelta)
+          setState(state => ({ ...state, radiusFactor: calcRadiusFactor(latitudeDelta, longitudeDelta) }))
+        }}
+      >
+        {initialLoadComplete && stations.map(station => (
+          <Fragment key={station.id}>
+            <Marker
+              coordinate={{ longitude: station.long, latitude: station.lat }}
+            >
+              <Callout onPress={() => onStationItemPress(station)}>
+                <StationItem
+                  station={station}
+                />
+              </Callout>
+            </Marker>
+            <Circle
+              center={{ longitude: station.long, latitude: station.lat }}
+              radius={radiusFactor * station.availability.total / maxAvailability}
+              strokeColor='#0080ff'
+              fillColor='rgba(0,128,255, 0.2)'
+            >
+            </Circle>
+          </Fragment>
+        ))}
+      </MapView>
+    );
+  }
 }
 
 MapViewResults.navigationOptions = {

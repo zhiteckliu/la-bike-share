@@ -10,6 +10,7 @@ import ResultsMap from './screens/resultMap';
 import returnForm from './screens/Return/filterForm';
 import returnResultsLoading from './screens/Return/resultLoading'
 import returnResultsList from './screens/Return/resultList';
+import stationResultsv2 from './screens/Rent/results';
 
 const ReturnResultsTabNavigator = createBottomTabNavigator(
   {
@@ -60,7 +61,7 @@ const ScreenStack = createStackNavigator(
       }
     },
     RentResults: {
-      screen: RentResultSwitchNavigator,
+      screen: stationResultsv2,
       navigationOptions: {
         title: 'Rent Results',
       }
