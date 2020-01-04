@@ -11,9 +11,7 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <StationContextProvider client={client}>
-        <Navigator />
-      </StationContextProvider>
+      <Navigator />
     </ApolloProvider>
   );
 }
