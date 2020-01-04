@@ -10,7 +10,8 @@ import globalStyles from '../../styles/global'
 
 const formSchema = yup.object({
   region: yup.string()
-    .required('Required'),
+    .required('Required')
+    .nullable(),
 })
 
 export default function filterForm({ navigation }) {
