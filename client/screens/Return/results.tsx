@@ -3,60 +3,54 @@ import { View, Button } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import CentreText from '../../components/CentreText';
-import { FilterAvailableStationQuery } from '../../query/GetBikeShareStationsQuery';
+import { FindEmptyDocksQuery } from '../../query/GetBikeShareStationsQuery';
 import globalStyles from '../../styles/global';
 import MapViewResults from '../../components/MapViewResults';
 import { services, pageSize } from '../../constants';
 import ListViewResults from '../../components/ListViewResults';
 
-export default function stationResultsv2({ navigation }) {
+export default function ReturnResults({ navigation }) {
   const [isListMode, setIsListMode] = useState(true);
   const region = navigation.getParam('region');
-  const regionName = navigation.getParam('regionName');
+  const regionName = navigation.getParam('regionName')
+  const numBikesReturn = parseInt(navigation.getParam('numBikesReturn'));
 
-  const bikesQuery = {
-    classic: parseInt(navigation.getParam('classic', '0')),
-    electric: parseInt(navigation.getParam('electric', '0')),
-    smart: parseInt(navigation.getParam('smart', '0')),
-  }
-
-  const { classic, electric, smart } = bikesQuery;
 
   const { loading, data, fetchMore } = useQuery(
-    FilterAvailableStationQuery, {
+    FindEmptyDocksQuery, {
     variables: {
       region,
-      classic,
-      electric,
-      smart,
-      first: pageSize,
-      offset: 0
+      numBikesReturn,
+      first: pageSize
     },
     notifyOnNetworkStatusChange: true
   })
 
-  const loadMoreStations = (currentDataLength) => fetchMore(
-    {
+  const loadMoreStations = (currentDataLength) => (
+    fetchMore({
       variables: { offset: currentDataLength },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
-          filterAvailableStations: {
-            __typename: prev.filterAvailableStations.__typename,
-            stations: [...prev.filterAvailableStations.stations, ...fetchMoreResult.filterAvailableStations.stations],
-            total: fetchMoreResult.filterAvailableStations.total
+          findEmptyDocks: {
+            __typename: prev.findEmptyDocks.__typename,
+            stations: [...prev.findEmptyDocks.stations, ...fetchMoreResult.findEmptyDocks.stations],
+            total: fetchMoreResult.findEmptyDocks.total
           }
         });
       }
     }
+    )
   )
-
   if (loading && !data) return (
     <CentreText text="Loading ..." />
   );
   else {
-    const { filterAvailableStations } = data;
-    const { total, stations } = filterAvailableStations;
+    console.log(data);
+    const { findEmptyDocks } = data;
+    const { total, stations } = findEmptyDocks;
+    console.log(total)
+    console.log(stations.length)
     if (total === 0) return (
       <CentreText text="No results matched your query. Please try again." />
     );
@@ -71,13 +65,13 @@ export default function stationResultsv2({ navigation }) {
         />
         {isListMode &&
           <ListViewResults
-            type={services.RENT}
+            type={services.RETURN}
             regionName={regionName}
             stations={stations}
             total={total}
-            query={bikesQuery}
+            query={{ numBikesReturn }}
             loading={loading}
-            loadMoreStations={loadMoreStations}
+            loadMoreStations={() => loadMoreStations(stations.length)}
           />
         }
         {!isListMode &&

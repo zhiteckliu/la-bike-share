@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { FlatList, Button } from 'react-native';
 import StationItem from './StationItem';
 import StationListSummary from './StationListSummary';

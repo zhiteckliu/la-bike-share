@@ -11,7 +11,7 @@ import globalStyles from '../../styles/global'
 const formSchema = yup.object({
   region: yup.string()
     .required('Required'),
-  total: yup.string()
+  numBikesReturn: yup.string()
     .required('Required')
 })
 
@@ -24,7 +24,7 @@ export default function filterForm({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <Formik
-        initialValues={{ region: '', total: '1' }}
+        initialValues={{ region: '', numBikesReturn: '1' }}
         validationSchema={formSchema}
         onSubmit={(values, actions) => {
           actions.resetForm();
@@ -67,15 +67,15 @@ export default function filterForm({ navigation }) {
               <View style={globalStyles.optionItem}>
                 <Text>Total number of bikes to return
                 {
-                    props.errors.total && props.touched.total
-                      ? (<Text style={{ color: 'red' }}> ({props.errors.total})</Text>)
+                    props.errors.numBikesReturn && props.touched.numBikesReturn
+                      ? (<Text style={{ color: 'red' }}> ({props.errors.numBikesReturn})</Text>)
                       : null
                   }
                 </Text>
                 <TextInput
                   placeholder='1'
-                  value={props.values.total}
-                  onChangeText={props.handleChange('total')}
+                  value={props.values.numBikesReturn}
+                  onChangeText={props.handleChange('numBikesReturn')}
                   keyboardType={'numeric'}
                   returnKeyType='done'
                 />

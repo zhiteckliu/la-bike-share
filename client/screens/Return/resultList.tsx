@@ -6,7 +6,7 @@ import StationItem from '../../components/StationItem';
 import globalStyles from '../../styles/global'
 import { StationContext } from '../../contexts/StationContext';
 import StationListSummary from '../../components/StationListSummary';
-import { services } from '../../utility';
+import { services } from '../../constants';
 
 export default function stationResults({ navigation }) {
   const { stations } = useContext(StationContext);

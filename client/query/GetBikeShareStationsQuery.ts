@@ -36,24 +36,30 @@ query FilterAvailableStation($region: String!, $classic: Int!, $electric: Int!, 
 `;
 
 export const FindEmptyDocksQuery = gql`
-query FindEmptyDocks($region: String!, $total: Int!)
+query FindEmptyDocks($region: String!, $numBikesReturn: Int!, $offset: Int, $first: Int)
   {
     findEmptyDocks(
       regionId: $region,
-      numBikesReturn: $total
+      numBikesReturn: $numBikesReturn,
+      offset: $offset,
+      first: $first
     ){
-      id
-      name
-      address
-      long
-      lat
-      availability{
-        total
-        emptyDocks
-        type{
-          classic
-          electric
-          smart
+      total
+      stations
+      {
+        id
+        name
+        address
+        long
+        lat
+        availability{
+          total
+          emptyDocks
+          type{
+            classic
+            electric
+            smart
+          }
         }
       }
     }

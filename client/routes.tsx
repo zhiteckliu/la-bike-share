@@ -11,6 +11,7 @@ import returnForm from './screens/Return/filterForm';
 import returnResultsLoading from './screens/Return/resultLoading'
 import returnResultsList from './screens/Return/resultList';
 import stationResultsv2 from './screens/Rent/results';
+import ReturnResults from './screens/Return/results';
 
 const ReturnResultsTabNavigator = createBottomTabNavigator(
   {
@@ -67,7 +68,7 @@ const ScreenStack = createStackNavigator(
       }
     },
     ReturnResults: {
-      screen: ReturnResultSwitchNavigator,
+      screen: ReturnResults,
       navigationOptions: {
         title: 'Return Results',
       }
