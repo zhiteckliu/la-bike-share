@@ -73,6 +73,7 @@ export default function stationResultsv2({ navigation }) {
             return (total > stations.length &&
               <Button
                 title={loading ? "loading..." : "view more"}
+                disabled={loading}
                 onPress={() => fetchMore(
                   {
                     variables: { offset: stations.length },
