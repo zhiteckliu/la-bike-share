@@ -71,13 +71,14 @@ const resolvers = {
 
       return { total: filteredList.length, stations: offsetList }
     },
-    findEmptyDocks: async (parent: any, args: { regionId: string, numBikesReturn: number }) => {
+    findEmptyDocks: async (parent: any, args: { regionId: string, numBikesReturn: number, first: number, offset: number }) => {
+      const { regionId, numBikesReturn, first, offset = 0 } = args
       const stationInfolist = await GetStationsInformation()
         .then((response) => {
           let stationList: IStationInformation[] = [];
           const { data } = response.data
           const { stations } = data
-          const filteredStations = _.filter(stations, { region_id: args.regionId })
+          const filteredStations = _.filter(stations, { region_id: regionId })
           filteredStations.forEach((station) => {
             stationList.push(StationInformationResponseMapper(station));
           });
@@ -89,11 +90,18 @@ const resolvers = {
           const { data } = response.data;
           const { stations } = data;
           return _.filter(stations, (item) =>
-            (item.num_docks_available > args.numBikesReturn));
+            (item.num_docks_available > numBikesReturn));
         })
 
-      return stationInfolist.filter(station =>
+      const filteredList = stationInfolist.filter(station =>
         emptyDocksList.some(status => status.station_id === station.id))
+
+      const offsetList = first === undefined ?
+        filteredList.slice(offset) :
+        filteredList.slice(offset, offset + first);
+
+
+      return { total: filteredList.length, stations: offsetList }
     },
     regions: async (parent: any, args: any) => {
       let regionsList: IRegionInformation[] = [];

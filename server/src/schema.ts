@@ -8,7 +8,12 @@ const typeDefs = gql`
       first: Int,
       offset: Int
     ):Response,
-    findEmptyDocks(regionId: String, numBikesReturn: Int):[StationInformation],
+    findEmptyDocks(
+      regionId: String,
+      numBikesReturn: Int,
+      first: Int,
+      offset: Int
+    ):Response,
     stations:[StationInformation],
     regions:[RegionInformation],
   }
