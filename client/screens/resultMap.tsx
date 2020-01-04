@@ -9,14 +9,13 @@ import {
   onStationItemPress,
   calcRadiusFactor
 } from '../utility'
-import { StationContext } from '../contexts/StationContext';
 import CentreText from '../components/CentreText';
 
 
 export default function MapViewResults({ stations }) {
   const [state, setState] = useState({
     radiusFactor: 0,
-    initialRegion: null,
+    region: null,
     maxAvailability: 0,
     initialLoadComplete: false
   })
@@ -34,11 +33,13 @@ export default function MapViewResults({ stations }) {
         maxAvail = stationAvailability > maxAvail ? stationAvailability : maxAvail;
       })
 
-      const initRegion = getRegionForCoordinates(stationPoints);
-      console.log(initRegion)
+      const region = getRegionForCoordinates(stationPoints);
+      if (this.mapView) {
+        this.mapView.animateToRegion(region, 1000)
+      }
       setState({
-        initialRegion: initRegion,
-        radiusFactor: calcRadiusFactor(initRegion.latitudeDelta, initRegion.longitudeDelta),
+        region,
+        radiusFactor: calcRadiusFactor(region.latitudeDelta, region.longitudeDelta),
         maxAvailability: maxAvail,
         initialLoadComplete: true
       })
@@ -46,17 +47,17 @@ export default function MapViewResults({ stations }) {
   }, [stations])
 
 
-  const { initialLoadComplete, radiusFactor, initialRegion, maxAvailability } = state
+  const { initialLoadComplete, radiusFactor, region, maxAvailability } = state
   if (!initialLoadComplete) return (
     <CentreText text="Loading map..." />
   );
   else {
     return (
       <MapView
+        ref={map => this.mapView = map}
         style={{ flex: 1 }}
-        initialRegion={initialRegion}
+        initialRegion={region}
         onRegionChangeComplete={({ latitudeDelta, longitudeDelta }) => {
-          console.log(latitudeDelta, longitudeDelta)
           setState(state => ({ ...state, radiusFactor: calcRadiusFactor(latitudeDelta, longitudeDelta) }))
         }}
       >

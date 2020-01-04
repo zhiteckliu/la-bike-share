@@ -35,7 +35,23 @@ export default function stationResultsv2({ navigation }) {
     },
     notifyOnNetworkStatusChange: true
   })
-  console.log(loading)
+
+  const loadMoreStations = (currentDataLength) => fetchMore(
+    {
+      variables: { offset: currentDataLength },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return Object.assign({}, prev, {
+          filterAvailableStations: {
+            __typename: prev.filterAvailableStations.__typename,
+            stations: [...prev.filterAvailableStations.stations, ...fetchMoreResult.filterAvailableStations.stations],
+            total: fetchMoreResult.filterAvailableStations.total
+          }
+        });
+      }
+    }
+  )
+
   if (loading && !data) return (
     <CentreText text="Loading ..." />
   );
@@ -74,27 +90,22 @@ export default function stationResultsv2({ navigation }) {
               <Button
                 title={loading ? "loading..." : "view more"}
                 disabled={loading}
-                onPress={() => fetchMore(
-                  {
-                    variables: { offset: stations.length },
-                    updateQuery: (prev, { fetchMoreResult }) => {
-                      if (!fetchMoreResult) return prev;
-                      return Object.assign({}, prev, {
-                        filterAvailableStations: {
-                          __typename: prev.filterAvailableStations.__typename,
-                          stations: [...prev.filterAvailableStations.stations, ...fetchMoreResult.filterAvailableStations.stations],
-                          total: fetchMoreResult.filterAvailableStations.total
-                        }
-                      });
-                    }
-                  }
-                )}
+                onPress={() => loadMoreStations(stations.length)}
               />)
           }
           }
           keyExtractor={item => item.id}
         />}
-        {!isListMode && <MapViewResults stations={stations} />}
+        {!isListMode &&
+          <>
+            <MapViewResults stations={stations} />
+            <Button
+              title={loading ? "loading..." : "view more"}
+              disabled={loading}
+              onPress={() => loadMoreStations(stations.length)}
+            />
+          </>
+        }
       </View>
     );
   }
