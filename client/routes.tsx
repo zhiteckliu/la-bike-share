@@ -6,7 +6,7 @@ import Home from './screens/home';
 import rentForm from './screens/Rent/filterForm';
 import rentResultsLoading from './screens/Rent/resultLoading'
 import rentResultsList from './screens/Rent/resultList';
-import ResultsMap from './screens/resultMap';
+import ResultsMap from './components/MapViewResults';
 import returnForm from './screens/Return/filterForm';
 import returnResultsLoading from './screens/Return/resultLoading'
 import returnResultsList from './screens/Return/resultList';

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, Button } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import CentreText from '../../components/CentreText';
-import { FilterAvailableStationQuery, FindEmptyDocksQuery } from '../../query/GetBikeShareStationsQuery';
+import { FilterAvailableStationQuery } from '../../query/GetBikeShareStationsQuery';
 import globalStyles from '../../styles/global';
-import StationItem from '../../components/StationItem';
-import MapViewResults from '../resultMap';
-import StationListSummary from '../../components/StationListSummary';
+import MapViewResults from '../../components/MapViewResults';
 import { services, pageSize } from '../../constants';
+import ListViewResults from '../../components/ListViewResults';
 
 export default function stationResultsv2({ navigation }) {
   const [isListMode, setIsListMode] = useState(true);
@@ -72,30 +71,17 @@ export default function stationResultsv2({ navigation }) {
             setIsListMode(!isListMode);
           }}
         />
-        {isListMode && <FlatList
-          data={stations}
-          renderItem={({ item }) => (
-            <StationItem station={item} />
-          )}
-          ListHeaderComponent={
-            <StationListSummary
-              serviceType={services.RENT}
-              regionName={regionName}
-              total={total}
-              query={bikesQuery}
-            />
-          }
-          ListFooterComponent={() => {
-            return (total > stations.length &&
-              <Button
-                title={loading ? "loading..." : "view more"}
-                disabled={loading}
-                onPress={() => loadMoreStations(stations.length)}
-              />)
-          }
-          }
-          keyExtractor={item => item.id}
-        />}
+        {isListMode &&
+          <ListViewResults
+            type={services.RENT}
+            regionName={regionName}
+            stations={stations}
+            total={total}
+            query={bikesQuery}
+            loading={loading}
+            loadMoreStations={loadMoreStations}
+          />
+        }
         {!isListMode &&
           <>
             <MapViewResults stations={stations} />

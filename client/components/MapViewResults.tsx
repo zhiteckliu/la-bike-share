@@ -2,14 +2,14 @@ import React, { Fragment, useState, useEffect, useContext } from 'react';
 import MapView, { Marker, Callout, Circle } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 
-import StationItem from '../components/StationItem'
+import StationItem from './StationItem'
 import {
   getRegionForCoordinates,
   LongLat,
   onStationItemPress,
   calcRadiusFactor
 } from '../utility'
-import CentreText from '../components/CentreText';
+import CentreText from './CentreText';
 
 
 export default function MapViewResults({ stations }) {
@@ -19,8 +19,6 @@ export default function MapViewResults({ stations }) {
     maxAvailability: 0,
     initialLoadComplete: false
   })
-
-  //const { stations } = useContext(StationContext);
 
   useEffect(() => {
     if (stations.length > 0) {
