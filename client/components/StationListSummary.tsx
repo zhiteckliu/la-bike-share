@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import globalStyles from '../styles/global';
-import { services } from '../utility/index';
+import { services } from '../constants';
 
 export default function StationListSummary({ serviceType, regionName, total, query }) {
   if (total > 0) {
