@@ -1,7 +1,8 @@
 import React from 'react';
-import { FlatList, Button } from 'react-native';
+import { FlatList } from 'react-native';
 import StationItem from './StationItem';
 import StationListSummary from './StationListSummary';
+import LoadMoreButton from './LoadMoreButton';
 
 
 export default function ListViewResults({
@@ -27,11 +28,14 @@ export default function ListViewResults({
       }
       ListFooterComponent={() => {
         return (total > stations.length &&
-          <Button
-            title={loading ? "loading..." : "view more"}
+          <LoadMoreButton
+            buttonText={loading ? "loading..." : "view more"}
+            summaryText={`${stations.length} of ${total} stations shown`}
+            handleSubmit={() => loadMoreStations(stations.length)}
             disabled={loading}
-            onPress={() => loadMoreStations(stations.length)}
-          />)
+            isButtonVisible={total > stations.length}
+          />
+        )
       }
       }
       keyExtractor={item => item.id}

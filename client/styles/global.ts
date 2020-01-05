@@ -57,6 +57,18 @@ const globalStyles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  buttonTextLoading: {
+    color: 'brown',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  loadMoreSummaryText: {
+    textAlign: 'center',
+    fontSize: 12,
+    marginBottom: 10,
+  },
 
   // rentResults and returnResults
   centreText: {
@@ -143,7 +155,7 @@ const globalStyles = StyleSheet.create({
   },
   breakdownCount: {
     marginLeft: 8
-  }
+  },
 });
 
 export default globalStyles;

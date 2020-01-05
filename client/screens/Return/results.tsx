@@ -8,6 +8,7 @@ import globalStyles from '../../styles/global';
 import MapViewResults from '../../components/MapViewResults';
 import { services, pageSize } from '../../constants';
 import ListViewResults from '../../components/ListViewResults';
+import LoadMoreButton from '../../components/LoadMoreButton';
 
 export default function ReturnResults({ navigation }) {
   const [isListMode, setIsListMode] = useState(true);
@@ -46,11 +47,8 @@ export default function ReturnResults({ navigation }) {
     <CentreText text="Loading ..." />
   );
   else {
-    console.log(data);
     const { findEmptyDocks } = data;
     const { total, stations } = findEmptyDocks;
-    console.log(total)
-    console.log(stations.length)
     if (total === 0) return (
       <CentreText text="No results matched your query. Please try again." />
     );
@@ -77,10 +75,12 @@ export default function ReturnResults({ navigation }) {
         {!isListMode &&
           <>
             <MapViewResults stations={stations} />
-            <Button
-              title={loading ? "loading..." : "view more"}
+            <LoadMoreButton
+              buttonText={loading ? "loading..." : "view more"}
+              summaryText={`${stations.length} of ${total} stations shown`}
+              handleSubmit={() => loadMoreStations(stations.length)}
               disabled={loading}
-              onPress={() => loadMoreStations(stations.length)}
+              isButtonVisible={total > stations.length}
             />
           </>
         }
