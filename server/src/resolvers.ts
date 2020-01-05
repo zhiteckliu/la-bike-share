@@ -14,21 +14,6 @@ import {
 
 const resolvers = {
   Query: {
-    stations: async () => {
-      let stationsList: StationInformation[] = [];
-      return await GetStationsInformation()
-        .then((response) => {
-          const { data } = response.data
-          const { stations } = data
-          stations.forEach((station) => {
-            stationsList.push(StationInformationResponseMapper(station));
-          });
-
-          if (stationsList.length > 0) return stationsList;
-
-          throw "An error has occured"
-        })
-    },
     filterAvailableStations: async (
       parent: any,
       args: { regionId: string, types: any, first: number, offset: number }
@@ -102,22 +87,6 @@ const resolvers = {
 
 
       return { total: filteredList.length, stations: offsetList }
-    },
-    regions: async (parent: any, args: any) => {
-      let regionsList: RegionInformation[] = [];
-      return await GetRegionInformation()
-        .then((response) => {
-          const { data } = response.data
-          const { regions } = data
-          regions.forEach((region) => {
-            regionsList.push(RegionInfoResponseMapper(region));
-          });
-
-          if (regions.length > 0) return regionsList;
-
-          throw "An error has occured fetching all regions"
-        })
-
     }
   },
   StationInformation: {
@@ -147,22 +116,6 @@ const resolvers = {
         })
     },
   },
-  RegionInformation: {
-    stations: async (regionInformation: RegionInformation) => {
-      return await GetStationsInformation()
-        .then((response) => {
-          let stationsList: StationInformation[] = [];
-          const { data } = response.data
-          const { stations } = data
-          const unMappedStations = _.filter(stations, (item) => (item.region_id === regionInformation.id));
-          unMappedStations.forEach((station) => {
-            stationsList.push(StationInformationResponseMapper(station));
-          });
-
-          if (stationsList.length > 0) return stationsList;
-        })
-    }
-  }
 }
 
 export default resolvers;

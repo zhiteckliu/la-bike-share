@@ -42,7 +42,6 @@ const typeDefs = gql`
   type RegionInformation {
     id: String
     name: String
-    stations: [StationInformation]
   }
 
   type Availability {
