@@ -1,7 +1,7 @@
 var objectMapper = require('object-mapper')
-import { StationInformation } from '../model/IStationInformationResponse'
-import { RegionInformation } from '../model/IRegionInformationResponse'
-import { Status } from '../model/IStationStatusResponse'
+import { StationInformation } from '../model/StationInformationResponse'
+import { RegionInformation } from '../model/RegionInformationResponse'
+import { Status } from '../model/StationStatusResponse'
 
 export const StationInformationResponseMapper = (src: StationInformation) => {
     var map = {

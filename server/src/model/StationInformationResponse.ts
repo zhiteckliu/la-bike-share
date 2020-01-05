@@ -1,13 +1,13 @@
-interface IStationInformationResponse {
+type StationInformationResponse = {
     data: Stations
     last_updated: number;
 }
 
-interface Stations {
+type Stations = {
     stations: StationInformation[]
 }
 
-export interface StationInformation {
+export type StationInformation = {
     lon: number;
     lat: number;
     region_id: string;
@@ -16,4 +16,4 @@ export interface StationInformation {
     station_id: string;
 }
 
-export default IStationInformationResponse
+export default StationInformationResponse

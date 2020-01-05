@@ -1,23 +1,23 @@
-interface IStationStatusResponse {
+type StationStatusResponse = {
     data: Stations
     last_updated: number;
 }
 
-interface Stations {
+type Stations = {
     stations: Status[]
 }
 
-interface BikesAvailabilityTypes {
+type BikesAvailabilityTypes = {
     electric: number;
     smart: number;
     classic: number;
 }
 
-export interface Status {
+export type Status = {
     station_id: string;
     num_docks_available: number;
     num_bikes_available: number;
     num_bikes_available_types: BikesAvailabilityTypes;
 }
 
-export default IStationStatusResponse
+export default StationStatusResponse

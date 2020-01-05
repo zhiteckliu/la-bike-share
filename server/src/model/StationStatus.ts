@@ -1,14 +1,14 @@
-interface IStationStatus {
+type StationStatus = {
     id: string;
     emptyDocks: number;
     totalBikesAvailable: number;
     bikesAvailabilityType: BikesAvailabilityTypes
 }
 
-interface BikesAvailabilityTypes {
+type BikesAvailabilityTypes = {
     electric: number;
     smart: number;
     classic: number;
 }
 
-export default IStationStatus
+export default StationStatus

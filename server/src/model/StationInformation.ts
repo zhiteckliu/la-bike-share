@@ -1,4 +1,4 @@
-interface IStationInformation {
+type StationInformation = {
     lat: number
     long: number
     regionId: string
@@ -7,4 +7,4 @@ interface IStationInformation {
     id: string
 }
 
-export default IStationInformation;
+export default StationInformation;

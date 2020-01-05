@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { IStationInformation, IRegionInformation } from './model';
+import { StationInformation, RegionInformation } from './model';
 import {
   GetStationsInformation,
   GetStationStatus,
@@ -15,7 +15,7 @@ import {
 const resolvers = {
   Query: {
     stations: async () => {
-      let stationsList: IStationInformation[] = [];
+      let stationsList: StationInformation[] = [];
       return await GetStationsInformation()
         .then((response) => {
           const { data } = response.data
@@ -36,7 +36,7 @@ const resolvers = {
       const { regionId, types, first, offset = 0 } = args;
       const filteredRegionList = await GetStationsInformation()
         .then((response) => {
-          let stationList: IStationInformation[] = [];
+          let stationList: StationInformation[] = [];
           const { data } = response.data
           const { stations } = data
           const unMappedFilteredRegionList = _.filter(stations, { region_id: regionId })
@@ -75,7 +75,7 @@ const resolvers = {
       const { regionId, numBikesReturn, first, offset = 0 } = args
       const stationInfolist = await GetStationsInformation()
         .then((response) => {
-          let stationList: IStationInformation[] = [];
+          let stationList: StationInformation[] = [];
           const { data } = response.data
           const { stations } = data
           const filteredStations = _.filter(stations, { region_id: regionId })
@@ -104,7 +104,7 @@ const resolvers = {
       return { total: filteredList.length, stations: offsetList }
     },
     regions: async (parent: any, args: any) => {
-      let regionsList: IRegionInformation[] = [];
+      let regionsList: RegionInformation[] = [];
       return await GetRegionInformation()
         .then((response) => {
           const { data } = response.data
@@ -121,7 +121,7 @@ const resolvers = {
     }
   },
   StationInformation: {
-    region: async (stationInformation: IStationInformation) => {
+    region: async (stationInformation: StationInformation) => {
       return await GetRegionInformation()
         .then((response) => {
           const { data } = response.data
@@ -134,7 +134,7 @@ const resolvers = {
         })
     },
     availability: async (
-      stationInformation: IStationInformation) => {
+      stationInformation: StationInformation) => {
       return await GetStationStatus()
         .then((response) => {
           const { data } = response.data
@@ -148,10 +148,10 @@ const resolvers = {
     },
   },
   RegionInformation: {
-    stations: async (regionInformation: IRegionInformation) => {
+    stations: async (regionInformation: RegionInformation) => {
       return await GetStationsInformation()
         .then((response) => {
-          let stationsList: IStationInformation[] = [];
+          let stationsList: StationInformation[] = [];
           const { data } = response.data
           const { stations } = data
           const unMappedStations = _.filter(stations, (item) => (item.region_id === regionInformation.id));
