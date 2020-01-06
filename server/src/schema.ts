@@ -14,8 +14,6 @@ const typeDefs = gql`
       first: Int,
       offset: Int
     ):Response,
-    stations:[StationInformation],
-    regions:[RegionInformation],
   }
 
   type Response {
