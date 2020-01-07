@@ -19,9 +19,9 @@ export default function StationListSummary({ serviceType, regionName, total, que
         })
       )
     } else {
-      const { bikesToReturn } = query
+      const { numBikesReturn } = query
       subSummaryText = (
-        <Text>- min. of {bikesToReturn} <Text style={globalStyles.summaryHighlight}>vacant</Text> docks</Text>
+        <Text>- min. of {numBikesReturn} <Text style={globalStyles.summaryHighlight}>vacant</Text> docks</Text>
       )
     }
 
