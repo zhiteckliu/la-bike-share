@@ -5,9 +5,20 @@ import globalStyles from '../styles/global';
 import { onStationItemPress } from '../utility'
 
 export default function StationItem({ station }) {
-  const { name, address, availability } = station;
-  const { emptyDocks, total, type } = availability;
-  const { classic, electric, smart } = type;
+  const {
+    name,
+    address,
+    availability: {
+      emptyDocks,
+      total,
+      type: {
+        classic,
+        electric,
+        smart
+      }
+    }
+  } = station;
+
   const pinIcon = require('../assets/pin.png')
   return (
     <TouchableOpacity onPress={() => onStationItemPress(station)}>
