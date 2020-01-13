@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
 
 import globalStyles from '../../styles/global'
+import FormNumericInput from '../../components/FormNumericInput';
 
 const formSchema = yup.object({
   region: yup.string()
@@ -64,22 +65,13 @@ export default function filterForm({ navigation }) {
               />
             </View>
             <View style={globalStyles.section}>
-              <View style={globalStyles.optionItem}>
-                <Text>Total number of bikes to return
-                {
-                    props.errors.numBikesReturn && props.touched.numBikesReturn
-                      ? (<Text style={{ color: 'red' }}> ({props.errors.numBikesReturn})</Text>)
-                      : null
-                  }
-                </Text>
-                <TextInput
-                  placeholder='1'
-                  value={props.values.numBikesReturn}
-                  onChangeText={props.handleChange('numBikesReturn')}
-                  keyboardType={'numeric'}
-                  returnKeyType='done'
-                />
-              </View>
+              <FormNumericInput
+                title="Total number of bikes to return"
+                placeholder='1'
+                inputValue={props.values.numBikesReturn}
+                onChangeText={props.handleChange('numBikesReturn')}
+                errorText={props.errors.numBikesReturn}
+              />
             </View>
             <View style={globalStyles.sectionBottom}>
               <TouchableOpacity onPress={props.handleSubmit}>

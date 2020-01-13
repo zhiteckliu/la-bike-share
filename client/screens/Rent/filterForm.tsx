@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
 
 import globalStyles from '../../styles/global'
+import FormNumericInput from '../../components/FormNumericInput';
 
 const formSchema = yup.object({
   region: yup.string()
@@ -74,36 +75,24 @@ export default function filterForm({ navigation }) {
               <Text>Select the type and number bike
                 <Text style={{ color: '#333', fontStyle: 'italic' }}> (optional)</Text>
               </Text>
-              <View style={globalStyles.optionItem}>
-                <Text>Classic</Text>
-                <TextInput
-                  placeholder='1'
-                  value={props.values.classic.toString()}
-                  onChangeText={props.handleChange('classic')}
-                  keyboardType={'numeric'}
-                  returnKeyType='done'
-                />
-              </View>
-              <View style={globalStyles.optionItem}>
-                <Text>Electric</Text>
-                <TextInput
-                  placeholder='1'
-                  value={props.values.electric.toString()}
-                  onChangeText={props.handleChange('electric')}
-                  keyboardType={'numeric'}
-                  returnKeyType='done'
-                />
-              </View>
-              <View style={globalStyles.optionItem}>
-                <Text>Smart</Text>
-                <TextInput
-                  placeholder='1'
-                  value={props.values.smart.toString()}
-                  onChangeText={props.handleChange('smart')}
-                  keyboardType={'numeric'}
-                  returnKeyType='done'
-                />
-              </View>
+              <FormNumericInput
+                title='Classic'
+                placeholder='1'
+                inputValue={props.values.classic.toString()}
+                onChangeText={props.handleChange('classic')}
+              />
+              <FormNumericInput
+                title='Electric'
+                placeholder='1'
+                inputValue={props.values.electric.toString()}
+                onChangeText={props.handleChange('electric')}
+              />
+              <FormNumericInput
+                title='Smart'
+                placeholder='1'
+                inputValue={props.values.smart.toString()}
+                onChangeText={props.handleChange('smart')}
+              />
             </View>
             <View style={globalStyles.sectionBottom}>
               <TouchableOpacity onPress={props.handleSubmit}>
