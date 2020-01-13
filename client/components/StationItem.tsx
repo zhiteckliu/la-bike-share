@@ -1,21 +1,74 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 
-export default function StationItem({ item }) {
-    return (
-        <TouchableOpacity>
-            <Text style={styles.item}>{item.id}</Text>
-        </TouchableOpacity>
-    );
+import globalStyles from '../styles/global';
+import { onStationItemPress } from '../utility'
+
+export default function StationItem({ station }) {
+  const {
+    name,
+    address,
+    availability: {
+      emptyDocks,
+      total,
+      type: {
+        classic,
+        electric,
+        smart
+      }
+    }
+  } = station;
+
+  const pinIcon = require('../assets/pin.png')
+  return (
+    <TouchableOpacity onPress={() => onStationItemPress(station)}>
+      <View style={globalStyles.item}>
+        <View style={globalStyles.overview}>
+          <View style={globalStyles.overviewSection}>
+            <Text style={globalStyles.name}>{name}</Text>
+            <View style={globalStyles.address}>
+              <Text>
+                <Image
+                  source={pinIcon}
+                  style={globalStyles.addressIcon}
+                  resizeMode='cover' />
+              </Text>
+              <Text style={globalStyles.addressText}>{address}</Text>
+            </View>
+          </View>
+          <View style={globalStyles.totalSection}>
+            <View style={globalStyles.totalAvail}>
+              <Text style={globalStyles.totalAvailTitle}>Total Bikes Available</Text>
+              <View style={globalStyles.totalAvailCount}>
+                <Text style={globalStyles.totalAvailCountNum}>{total}</Text>
+              </View>
+            </View>
+            <View style={globalStyles.totalAvail}>
+              <Text style={globalStyles.totalAvailTitle}>Vacant Docks</Text>
+              <View style={globalStyles.totalAvailCount}>
+                <Text style={globalStyles.totalAvailCountNum}>{emptyDocks}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={globalStyles.breakdown}>
+          <Text style={globalStyles.breakdownTitle}>Available Bikes Breakdown</Text>
+          <View style={globalStyles.breakdownSection}>
+            <View style={globalStyles.breakdownCategory}>
+              <Text style={globalStyles.breakdownTitle}>Classic</Text>
+              <Text style={globalStyles.breakdownCount}>{classic}</Text>
+            </View>
+            <View style={globalStyles.breakdownCategory}>
+              <Text style={globalStyles.breakdownTitle}>Electric</Text>
+              <Text style={globalStyles.breakdownCount}>{electric}</Text>
+            </View>
+            <View style={globalStyles.breakdownCategory}>
+              <Text style={globalStyles.breakdownTitle}>Smart</Text>
+              <Text style={globalStyles.breakdownCount}>{smart}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity >
+  );
 }
-
-const styles = StyleSheet.create({
-    item: {
-        padding: 16,
-        marginTop: 16,
-        borderColor: '#bbb',
-        borderWidth: 1,
-        borderStyle: 'dashed',
-        borderRadius: 10
-    },
-});

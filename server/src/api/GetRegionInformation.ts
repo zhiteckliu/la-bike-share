@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { IRegionInformationResponse } from '../model'
+import { RegionInformationResponse } from '../model'
 
 const REQUEST_URL = 'https://gbfs.bcycle.com/bcycle_lametro/system_regions.json';
 
-interface ServerResponse {
-    data: IRegionInformationResponse
+type ServerResponse = {
+    data: RegionInformationResponse
 }
 
 export default (): Promise<ServerResponse> => {

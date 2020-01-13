@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Melbourne Bike Share",
+    "name": "Bike Share",
     "slug": "client",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -25,6 +25,14 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.zhiteckliu.bikeshare",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyD2nAXTo5hYdi4nP8we_8kJBBlKtJ67Ysg"
+        }
+      }
     }
   }
 }

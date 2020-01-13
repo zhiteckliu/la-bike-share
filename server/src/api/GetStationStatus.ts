@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { IStationStatusResponse } from '../model'
+import { StationStatusResponse } from '../model'
 
 const REQUEST_URL = 'https://gbfs.bcycle.com/bcycle_lametro/station_status.json';
 
-interface ServerResponse {
-    data: IStationStatusResponse
+type ServerResponse = {
+    data: StationStatusResponse
 }
 
 export default (): Promise<ServerResponse> => {
