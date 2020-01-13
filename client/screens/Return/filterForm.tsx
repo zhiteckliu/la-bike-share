@@ -11,7 +11,8 @@ import FormNumericInput from '../../components/FormNumericInput';
 
 const formSchema = yup.object({
   region: yup.string()
-    .required('Required'),
+    .required('Required')
+    .nullable(),
   numBikesReturn: yup.string()
     .required('Required')
 })
@@ -49,6 +50,7 @@ export default function filterForm({ navigation }) {
                     props.setFieldValue('region', itemValue)
                   }
                 }}
+                value={props.values.region}
                 items={regionOptions}
                 Icon={() => (<Ionicons name="ios-arrow-down" size={24} color="gray" />)}
                 style={{
