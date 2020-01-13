@@ -17,7 +17,7 @@ export default function ReturnResults({ navigation }) {
   const numBikesReturn = +navigation.getParam('numBikesReturn');
 
 
-  const { loading, data, fetchMore } = useQuery(
+  const { loading, data, fetchMore, error } = useQuery(
     FindEmptyDocksQuery, {
     variables: {
       region,
@@ -47,51 +47,53 @@ export default function ReturnResults({ navigation }) {
   if (loading && !data) return (
     <CentreText text="Loading ..." />
   );
-  else {
-    const {
-      findEmptyDocks: {
-        total,
-        stations
-      }
-    } = data;
 
-    if (total === 0) return (
-      <CentreText text="No results matched your query. Please try again." />
-    );
+  if (error) return (
+    <CentreText text={error.networkError.message} />
+  )
 
-    return (
-      <View style={globalStyles.container}>
-        <Button
-          title={isListMode ? "View results in map" : "View results in list"}
-          onPress={() => {
-            setIsListMode(!isListMode);
-          }}
+  const {
+    findEmptyDocks: {
+      total,
+      stations
+    }
+  } = data;
+
+  if (total === 0) return (
+    <CentreText text="No results matched your query. Please try again." />
+  );
+
+  return (
+    <View style={globalStyles.container}>
+      <Button
+        title={isListMode ? "View results in map" : "View results in list"}
+        onPress={() => {
+          setIsListMode(!isListMode);
+        }}
+      />
+      {isListMode &&
+        <ListViewResults
+          type={services.RETURN}
+          regionName={regionName}
+          stations={stations}
+          total={total}
+          query={{ numBikesReturn }}
+          loading={loading}
+          loadMoreStations={() => loadMoreStations(stations.length)}
         />
-        {isListMode &&
-          <ListViewResults
-            type={services.RETURN}
-            regionName={regionName}
-            stations={stations}
-            total={total}
-            query={{ numBikesReturn }}
-            loading={loading}
-            loadMoreStations={() => loadMoreStations(stations.length)}
+      }
+      {!isListMode &&
+        <>
+          <MapViewResults stations={stations} />
+          <LoadMoreButton
+            buttonText={loading ? "loading..." : "view more"}
+            summaryText={`${stations.length} of ${total} stations shown`}
+            handleSubmit={() => loadMoreStations(stations.length)}
+            disabled={loading}
+            isButtonVisible={total > stations.length}
           />
-        }
-        {!isListMode &&
-          <>
-            <MapViewResults stations={stations} />
-            <LoadMoreButton
-              buttonText={loading ? "loading..." : "view more"}
-              summaryText={`${stations.length} of ${total} stations shown`}
-              handleSubmit={() => loadMoreStations(stations.length)}
-              disabled={loading}
-              isButtonVisible={total > stations.length}
-            />
-          </>
-        }
-      </View>
-    );
-  }
-
+        </>
+      }
+    </View>
+  );
 }
