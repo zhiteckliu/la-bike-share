@@ -14,7 +14,7 @@ export default function ReturnResults({ navigation }) {
   const [isListMode, setIsListMode] = useState(true);
   const region = navigation.getParam('region');
   const regionName = navigation.getParam('regionName')
-  const numBikesReturn = parseInt(navigation.getParam('numBikesReturn'));
+  const numBikesReturn = +navigation.getParam('numBikesReturn');
 
 
   const { loading, data, fetchMore } = useQuery(
@@ -32,13 +32,14 @@ export default function ReturnResults({ navigation }) {
       variables: { offset: currentDataLength },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
-        return Object.assign({}, prev, {
+        return {
+          ...prev,
           findEmptyDocks: {
-            __typename: prev.findEmptyDocks.__typename,
+            ...prev.findEmptyDocks,
             stations: [...prev.findEmptyDocks.stations, ...fetchMoreResult.findEmptyDocks.stations],
             total: fetchMoreResult.findEmptyDocks.total
           }
-        });
+        }
       }
     }
     )
@@ -47,8 +48,13 @@ export default function ReturnResults({ navigation }) {
     <CentreText text="Loading ..." />
   );
   else {
-    const { findEmptyDocks } = data;
-    const { total, stations } = findEmptyDocks;
+    const {
+      findEmptyDocks: {
+        total,
+        stations
+      }
+    } = data;
+
     if (total === 0) return (
       <CentreText text="No results matched your query. Please try again." />
     );

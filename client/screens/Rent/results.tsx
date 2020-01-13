@@ -16,9 +16,9 @@ export default function RentalResults({ navigation }) {
   const regionName = navigation.getParam('regionName');
 
   const bikesQuery = {
-    classic: parseInt(navigation.getParam('classic', '0')),
-    electric: parseInt(navigation.getParam('electric', '0')),
-    smart: parseInt(navigation.getParam('smart', '0')),
+    classic: +navigation.getParam('classic', '0'),
+    electric: +navigation.getParam('electric', '0'),
+    smart: +navigation.getParam('smart', '0'),
   }
 
   const { classic, electric, smart } = bikesQuery;
@@ -41,13 +41,14 @@ export default function RentalResults({ navigation }) {
       variables: { offset: currentDataLength },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
-        return Object.assign({}, prev, {
+        return {
+          ...prev,
           filterAvailableStations: {
-            __typename: prev.filterAvailableStations.__typename,
+            ...prev.filterAvailableStations,
             stations: [...prev.filterAvailableStations.stations, ...fetchMoreResult.filterAvailableStations.stations],
             total: fetchMoreResult.filterAvailableStations.total
           }
-        });
+        }
       }
     }
   )
@@ -56,8 +57,13 @@ export default function RentalResults({ navigation }) {
     <CentreText text="Loading ..." />
   );
   else {
-    const { filterAvailableStations } = data;
-    const { total, stations } = filterAvailableStations;
+    const {
+      filterAvailableStations: {
+        total,
+        stations
+      }
+    } = data;
+
     if (total === 0) return (
       <CentreText text="No results matched your query. Please try again." />
     );
