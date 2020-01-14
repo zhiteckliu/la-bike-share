@@ -12,6 +12,10 @@ import {
   RegionInfoResponseMapper
 } from './utility/mapper'
 
+import GetAvailStationsStatusByAvailabilityHandler from './ApplicationServices/GetAvailableStationsByAvailabilityTypeQuery'
+import { GetStationsStatus } from './Infrastructure/StationDatasource'
+import StationStatusMapper from './Infrastructure/StationStatusMapper'
+
 const resolvers = {
   Query: {
     filterAvailableStations: async (
@@ -19,6 +23,11 @@ const resolvers = {
       args: { regionId: string, types: any, first: number, offset: number }
     ) => {
       const { regionId, types, first, offset = 0 } = args;
+      GetAvailStationsStatusByAvailabilityHandler({ GetStationsStatus }, { map: StationStatusMapper }, { classic: 0, electric: 0, smart: 5 })
+        .then(res => {
+          console.log(res)
+          console.log(res.length)
+        })
       const filteredRegionList = await GetStationsInformation()
         .then((response) => {
           let stationList: StationInformation[] = [];
