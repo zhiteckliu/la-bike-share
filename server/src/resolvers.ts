@@ -5,7 +5,7 @@ import {
   GetStationsInformation,
   GetStationStatus,
   GetRegionInformation
-} from './api'
+} from './datasource'
 import {
   StationInformationResponseMapper,
   StationStatusResponseMapper,
