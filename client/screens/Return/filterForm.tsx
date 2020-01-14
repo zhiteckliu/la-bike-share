@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import globalStyles from '../../styles/global'
 import FormNumericInput from '../../components/FormNumericInput';
+import { screenNames } from '../../constants';
 
 const formSchema = yup.object({
   region: yup.string()
@@ -31,7 +32,7 @@ export default function filterForm({ navigation }) {
         onSubmit={(values, actions) => {
           actions.resetForm();
           const regionName = find(regionOptions, { value: values.region }).label
-          return navigation.navigate('ReturnResults', { ...values, regionName });
+          return navigation.navigate(screenNames.RETURN_RESULTS, { ...values, regionName });
         }}
       >
         {props => (
