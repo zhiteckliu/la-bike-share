@@ -3,6 +3,11 @@ import { StationInformation } from '../model/StationInformationResponse'
 import { RegionInformation } from '../model/RegionInformationResponse'
 import { Status } from '../model/StationStatusResponse'
 
+// todo: 
+// refactor to a simple function that takes source type, 
+// returns an object or target type
+// remove dependency to module: object-mapper
+
 export const StationInformationResponseMapper = (src: StationInformation) => {
     var map = {
         "lon": "long",
